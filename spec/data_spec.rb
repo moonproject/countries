@@ -41,7 +41,7 @@ describe ISO3166::Data do
     it 'returns an array' do
       data = ISO3166::Data.codes
       expect(data).to be_a Array
-      expect(data.size).to eq 249
+      expect(data.size).to eq 250
     end
   end
 
