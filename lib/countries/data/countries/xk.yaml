@@ -1,0 +1,50 @@
+---
+XK:
+  alpha2: XK
+  alpha3: XXK
+  continent: Europe
+  country_code: '381'
+  currency_code: EUR
+  geo:
+    latitude: 44.016521
+    longitude: 21.005859
+    max_latitude: 46.190032
+    max_longitude: 23.0063095
+    min_latitude: 42.2315029
+    min_longitude: 18.8385221
+    bounds:
+      northeast:
+        lat: 46.190032
+        lng: 23.0063095
+      southwest:
+        lat: 42.2315029
+        lng: 18.8385221
+  international_prefix: '383'
+  ioc: XXK
+  iso_long_name: Republic of Kosovo
+  iso_short_name: Kosovo
+  languages_official:
+  - sq
+  - sr
+  languages_spoken:
+  - sq
+  - sr
+  national_destination_code_lengths:
+  - 2
+  national_number_lengths:
+  - 9
+  national_prefix: '0'
+  nationality: Kosovar
+  number: '688'
+  postal_code: true
+  postal_code_format: "\\d{5,6}"
+  region: Europe
+  start_of_week: monday
+  subregion: Southern Europe
+  un_locode: RS
+  unofficial_names:
+  - QZZ
+  - Republika e Kosovës
+  - Република Косово
+  - Republika Kosovo
+  world_region: EMEA
