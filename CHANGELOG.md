@@ -3,7 +3,69 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## [5.1.2](https://github.com/countries/countries/releases/tag/v5.1.1') (2022/08/11 14:35 +00:00)
+
+## [5.3.1](https://github.com/countries/countries/releases/tag/v5.3.1') (2023/01/26 14:05 +00:00)
+
+* Update countries-th.yaml [\#792](https://github.com/countries/countries/pull/792) ([worrawutp](https://github.com/worrawutp))
+* Fix [\#765](https://github.com/countries/countries/issues/765) - Restore `Australia` as first unnoficial name for Australia ([pmor](https://github.com/pmor))
+
+
+**Full Changelog**: https://github.com/countries/countries/compare/v5.3.0...v5.3.1
+
+## [5.3.0](https://github.com/countries/countries/releases/tag/v5.3.0') (2023/01/03 17:02 +00:00)
+
+**Merged pull requests:**
+
+* Remove dead code: KwargStruct [\#787](https://github.com/countries/countries/pull/787) ([pmor](https://github.com/pmor))
+* Update data for Turkmenistan and add Turkmen translation [\#789](https://github.com/countries/countries/pull/789) ([msuliq](https://github.com/msuliq))
+* Add Country#subdivision_names method [\#788](https://github.com/countries/countries/pull/788) ([pmor](https://github.com/pmor))
+
+## [5.2.1](https://github.com/countries/countries/releases/tag/v5.2.1') (2022/12/22 15:29 +00:00)
+
+**Important changes**
+
+* The Republic of Croatia will join the Eurozone and switch currency to `EUR` in Jan 1 2023. If you update this gem before that date and need to have correct currency codes as of 2022, I recommend using an initializer to re-register Croatia with `HRK`, which you could wrap with a check of the current date, eg:
+
+  ```ruby
+    # In an initializer
+    if Date.today.year == 2022
+      new_data = ISO3166::Country['HR'].data
+      new_data.transform_keys! &:to_sym
+      new_data[:currency_code] = 'HRK'
+      ISO3166::Data.register new_data
+    end
+  ```
+
+**Merged pull requests:**
+
+* Fix changelog to point to correct PR [\#778](https://github.com/countries/countries/pull/778) ([carlosantoniodasilva](https://github.com/carlosantoniodasilva))
+* Document how to get country codes (alpha2) [ci skip] [\#781](https://github.com/countries/countries/pull/781) ([jean-francois-labbe](https://github.com/carlosantoniodasilva))
+* Update Croatia's currency to EUR [\#784](https://github.com/countries/countries/pull/784) ([pmor](https://github.com/pmor))
+* Duplicate `I18n.available_locales` into `default_locales` [\#785](https://github.com/countries/countries/pull/785) ([pmor](https://github.com/pmor))
+
+
+## [5.2.0](https://github.com/countries/countries/releases/tag/v5.2.0') (2022/10/28 14:35 +00:00)
+
+**Important changes**
+
+* The Republic of Turkey has officially changed its name to `The Republic of Türkiye`, short name `Türkiye`. Official name attributes have been updated, as well as several translations. This could be a breaking change if you rely on the old name.
+
+* The `sixarm_ruby_unaccent` gem was replaced with `unaccent`. See [\#767](https://github.com/countries/countries/pull/767)
+
+**Merged pull requests:**
+
+* Ensure #translated_names is compacted [\#777](https://github.com/countries/countries/pull/777) ([pmor](https://github.com/pmor))
+* Rename turkey to Türkiye [\#771](https://github.com/countries/countries/pull/771) ([larskuhnt](https://github.com/larskuhnt))
+* Fix Upgrade.md route on README.markdown [\#766](https://github.com/countries/countries/pull/766)  ([dmartingarcia](https://github.com/dmartingarcia))
+* Update french, missing uppercase letters [\#769](https://github.com/countries/countries/pull/769) ([JulienItard](https://github.com/JulienItard))
+* german translations for CI and CV [\#770](https://github.com/countries/countries/pull/770) ([larskuhnt](https://github.com/larskuhnt))
+* Fix Czechia name in LT translation [\#773](https://github.com/countries/countries/pull/773) ([tomukas](https://github.com/tomukas))
+* Updated Taiwan unofficial names [\#772](https://github.com/countries/countries/pull/772) ([Tzenda](https://github.com/Tzenda))
+* Replace sixarm_ruby_unaccent with unaccent [\#767](https://github.com/countries/countries/pull/767) ([jonian](https://github.com/jonian))
+
+## [5.1.2](https://github.com/countries/countries/releases/tag/v5.1.2') (2022/08/11 14:35 +00:00)
+
+**Merged pull requests:**
 
 * Missing unofficial translations, addresses the remaining translations in [\#580](https://github.com/countries/countries/issues/580) -  [\#764](https://github.com/countries/countries/pull/764) ([pmor](https://github.com/pmor))
 
@@ -31,7 +93,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 **Merged pull requests:**
 
-* Remove i18n_data dependency [\#755](https://github.com/countries/countries/pull/755) ([pmor](https://github.com/pmor))
+* Remove i18n_data dependency [\#756](https://github.com/countries/countries/pull/756) ([pmor](https://github.com/pmor))
 * Update subdivision YAML with codes [\#757](https://github.com/countries/countries/pull/757) ([pmor](https://github.com/pmor))
 * Add subdivision types from ISO3166-2 [\#758](https://github.com/countries/countries/pull/758) ([pmor](https://github.com/pmor))
 

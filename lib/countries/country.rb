@@ -90,6 +90,12 @@ module ISO3166
       subdivisions.map { |k, v| [v.translations[locale] || v.name, k] }
     end
 
+    # @param locale [String] The locale to use for translations.
+    # @return [Array<String>] A list of subdivision names for this country.
+    def subdivision_names(locale = 'en')
+      subdivisions.map { |k, v| v.translations[locale] || v.name }
+    end
+
     def states
       if RUBY_VERSION =~ /^3\.\d\.\d/
         warn "DEPRECATION WARNING: The Country#states method has been deprecated and will be removed in 6.0. Please use Country#subdivisions instead.", uplevel: 1, category: :deprecated
@@ -121,7 +127,7 @@ module ISO3166
 
     # @return [Array<String>] the list of names for this Country in all loaded locales.
     def translated_names
-      data['translations'].values
+      data['translations'].values.compact
     end
 
     # @param locale [String] The locale to use for translations.

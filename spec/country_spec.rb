@@ -107,11 +107,19 @@ describe ISO3166::Country do
     expect(country.world_region).to eq('AMER')
   end
 
-  context 'with Turkey' do
+  context 'with Türkiye' do
     let(:country) { ISO3166::Country.search('TR') }
 
     it 'should indicate EMEA as the world region' do
       expect(country.world_region).to eq('EMEA')
+    end
+
+    it 'has iso_short_name Türkiye' do
+      expect(country.iso_short_name).to eq('Türkiye')
+    end
+
+    it 'has iso_long_name Republic of Türkiye' do
+      expect(country.iso_long_name).to eq('The Republic of Türkiye')
     end
   end
 
@@ -324,6 +332,26 @@ describe ISO3166::Country do
       expect(subdivisions.first[0]).to be_a(String)
       expect(subdivisions.size).to eq(27)
       expect(subdivisions.first[0]).to eq('Al Iskandariyah')
+    end
+  end
+
+  describe 'subdivision_names' do
+    it 'should return an alphabetized list of all subdivisions names' do
+      subdivisions = ISO3166::Country.search('EG').subdivision_names
+      expect(subdivisions).to be_an(Array)
+      expect(subdivisions.first).to be_a(String)
+      expect(subdivisions.size).to eq(27)
+      expect(subdivisions.first).to eq('Alexandria')
+    end
+
+    it 'should return an alphabetized list of subdivision names translated to current locale with codes' do
+      ISO3166.configuration.locales = %i[es de en]
+
+      subdivisions = ISO3166::Country.search('EG').subdivision_names(:es)
+      expect(subdivisions).to be_an(Array)
+      expect(subdivisions.first).to be_a(String)
+      expect(subdivisions.size).to eq(27)
+      expect(subdivisions.first).to eq('Al Iskandariyah')
     end
   end
 
@@ -604,6 +632,12 @@ describe ISO3166::Country do
       expect(spain_data.keys).to eq(['ES'])
     end
 
+    it 'finds country from a subdivision name' do
+      gb_data = ISO3166::Country.find_all_by(:subdivision_names, 'Scotland')
+      expect(gb_data).to be_a Hash
+      expect(gb_data.keys).to eq(['GB'])
+    end
+
     it 'performs reasonably' do
       start = Time.now
       250.times do
@@ -689,6 +723,13 @@ describe ISO3166::Country do
       subject { ISO3166::Country.find_by_unofficial_names('Polonia') }
       it 'should return' do
         expect(subject.first).to eq('PL')
+      end
+    end
+
+    context "when search name in 'subdivision_names'" do
+      subject { ISO3166::Country.find_by_subdivision_names('Scotland') }
+      it 'should return' do
+        expect(subject.first).to eq('GB')
       end
     end
 
@@ -816,12 +857,42 @@ describe ISO3166::Country do
       end
     end
 
-    context 'regression test for #388' do
-      let(:no_country) { ISO3166::Country.find_country_by_translated_names(nil) }
+    context 'sanity check for #771' do
+      let(:turkey) { ISO3166::Country.find_country_by_any_name('Turkey') }
 
       it 'should be a country instance' do
+        expect(turkey).to be_a(ISO3166::Country)
+        expect(turkey.alpha2).to eq('TR')
+      end
+    end
+
+    context 'regression test for #746' do
+      let(:no_country) { ISO3166::Country.find_country_by_any_name(nil) }
+
+      it 'should not be a country instance' do
         expect(no_country).to_not be_a(ISO3166::Country)
         expect(no_country).to eq nil
+      end
+    end
+
+    context 'regression test for #388/#746/#776' do
+      before do
+        ISO3166.configure do |config|
+          config.locales = [:af, :am, :ar, :as, :az, :be, :bg, :bn, :br, :bs, :ca, :cs, :cy, :da, :de, :dz, :el, :en, :eo, :es, :et, :eu, :fa, :fi, :fo, :fr, :ga, :gl, :gu, :he, :hi, :hr, :hu, :hy, :ia, :id, :is, :it, :ja, :ka, :kk, :km, :kn, :ko, :ku, :lt, :lv, :mi, :mk, :ml, :mn, :mr, :ms, :mt, :nb, :ne, :nl, :nn, :oc, :or, :pa, :pl, :ps, :pt, :ro, :ru, :rw, :si, :sk, :sl, :so, :sq, :sr, :sv, :sw, :ta, :te, :th, :ti, :tk, :tl, :tr, :tt, :ug, :uk, :ve, :vi, :wa, :wo, :xh, :zh, :zu]
+        end
+      end
+
+      let(:no_country) { ISO3166::Country.find_country_by_translated_names(nil) }
+      let(:zimbabwe) { ISO3166::Country['ZW'] }
+
+      it 'should not be a country instance' do
+        expect(no_country).to_not be_a(ISO3166::Country)
+        expect(no_country).to eq nil
+      end
+
+      it 'translated_names should not include nil values' do
+        expect(zimbabwe.translation('no')).to be_nil
+        expect(zimbabwe.translated_names).not_to include(nil)
       end
     end
 
