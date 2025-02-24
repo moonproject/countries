@@ -6,11 +6,9 @@ require 'bundler/gem_tasks'
 require 'rake'
 require 'rspec/core/rake_task'
 require 'yaml'
+require 'json'
 
 ISO3166_ROOT_PATH = File.dirname(__FILE__)
-
-# Enter your API Key enabled for Geocoding API and Places API
-GOOGLE_API_KEY = 'ENTER API KEY'
 
 Dir.glob('lib/countries/tasks/*.rake').each { |r| load r }
 
@@ -23,7 +21,7 @@ task default: [:spec]
 
 desc 'Update CLDR subdivison data set'
 task :update_cldr_subdivison_data do
-  require_relative './lib/countries/sources'
+  require_relative 'lib/countries/sources'
   Sources::CLDR::Downloader.subdivisions
   Sources::CLDR::SubdivisionUpdater.new.call
 end
@@ -37,7 +35,7 @@ task :update_cache do
     locale = locale_file.split('-').last.split('.').first.downcase
     local_names = YAML.load_file(locale_file)
 
-    out = File.join(File.dirname(__FILE__), 'lib', 'countries', 'cache', 'locales', "#{locale.gsub(/_/, '-')}.json")
+    out = File.join(File.dirname(__FILE__), 'lib', 'countries', 'cache', 'locales', "#{locale.gsub('_', '-')}.json")
     File.binwrite(out, local_names.to_json)
   end
 
@@ -56,6 +54,7 @@ task :cleanup_subdivision_yaml do
     sd = Sources::Local::Subdivision.new(c_code)
     data = sd.load
     next if data.nil? || data == {}
+
     data = data.sort.to_h
     data['translations'] = data['translations'].sort.to_h unless data['translations'].nil?
     sd.save(data)

@@ -10,6 +10,7 @@ NL:
   continent: Europe
   country_code: '31'
   currency_code: EUR
+  distance_unit: KM
   eea_member: true
   eu_member: true
   gec: NL
@@ -35,6 +36,7 @@ NL:
   - nl
   languages_spoken:
   - nl
+  - fy
   national_destination_code_lengths:
   - 2
   national_number_lengths:
@@ -48,6 +50,7 @@ NL:
   start_of_week: monday
   subregion: Western Europe
   un_locode: NL
+  un_member: true
   unofficial_names:
   - Netherlands
   - The Netherlands
@@ -63,4 +66,5 @@ NL:
     - 9
     super_reduced:
     parking:
+  vehicle_registration_code: NL
   world_region: EMEA

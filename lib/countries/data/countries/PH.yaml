@@ -10,6 +10,7 @@ PH:
   continent: Asia
   country_code: '63'
   currency_code: PHP
+  distance_unit: KM
   gec: RP
   geo:
     latitude: 12.879721
@@ -50,6 +51,7 @@ PH:
   start_of_week: monday
   subregion: South-Eastern Asia
   un_locode: PH
+  un_member: true
   unofficial_names:
   - Philippines
   - Philippinen
@@ -61,4 +63,5 @@ PH:
     reduced: []
     super_reduced:
     parking:
+  vehicle_registration_code: RP
   world_region: APAC

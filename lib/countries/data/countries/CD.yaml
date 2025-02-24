@@ -5,6 +5,7 @@ CD:
   continent: Africa
   country_code: '243'
   currency_code: CDF
+  distance_unit: KM
   gec: CG
   geo:
     latitude: -4.038333
@@ -48,6 +49,7 @@ CD:
   start_of_week: monday
   subregion: Middle Africa
   un_locode: CD
+  un_member: true
   unofficial_names:
   - ZAR
   - Congo (Dem. Rep.)
@@ -58,4 +60,6 @@ CD:
   - Congo (The Democratic Republic Of The)
   - Democratic Republic of the Congo
   - Congo, Democratic Republic of
+  - Congo (Kinshasa)
+  vehicle_registration_code: CGO
   world_region: EMEA

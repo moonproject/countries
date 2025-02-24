@@ -11,6 +11,8 @@ KR:
   continent: Asia
   country_code: '82'
   currency_code: KRW
+  distance_unit: KM
+  g20_member: true
   gec: KS
   geo:
     latitude: 35.907757
@@ -48,6 +50,7 @@ KR:
   start_of_week: monday
   subregion: Eastern Asia
   un_locode: KR
+  un_member: true
   unofficial_names:
   - South Korea
   - Korea (South)
@@ -57,4 +60,5 @@ KR:
   - 大韓民国
   - Zuid-Korea
   - Korea (Republic of)
+  vehicle_registration_code: ROK
   world_region: APAC

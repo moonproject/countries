@@ -5,6 +5,7 @@ GM:
   continent: Africa
   country_code: '220'
   currency_code: GMD
+  distance_unit: KM
   gec: GA
   geo:
     latitude: 13.443182
@@ -40,7 +41,9 @@ GM:
   start_of_week: monday
   subregion: Western Africa
   un_locode: GM
+  un_member: true
   unofficial_names:
   - The Gambia
   - ガンビア
+  vehicle_registration_code: WAG
   world_region: EMEA

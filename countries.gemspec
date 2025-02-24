@@ -16,16 +16,17 @@ Gem::Specification.new do |gem|
                         'changelog_uri' => 'https://github.com/countries/countries/blob/master/CHANGELOG.md',
                         'source_code_uri' => 'https://github.com/countries/countries',
                         'wiki_uri' => 'https://github.com/countries/countries/wiki',
+                        'funding_uri' => 'https://github.com/sponsors/pmor',
                         'rubygems_mfa_required' => 'true' }
 
-  gem.files         = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.files         = `git ls-files lib`.split($OUTPUT_RECORD_SEPARATOR)
   gem.require_paths = ['lib']
 
-  gem.required_ruby_version = '>= 2.7'
+  gem.required_ruby_version = '>= 3.1'
 
   gem.add_dependency('unaccent', '~> 0.3')
   gem.add_development_dependency('activesupport', '>= 3')
   gem.add_development_dependency('nokogiri', '>= 1.8')
   gem.add_development_dependency('rspec', '>= 3')
+  gem.add_development_dependency('simplecov', '~> 0.22')
 end

@@ -10,6 +10,7 @@ RO:
   continent: Europe
   country_code: '40'
   currency_code: RON
+  distance_unit: KM
   eea_member: true
   eu_member: true
   gec: RO
@@ -48,6 +49,7 @@ RO:
   start_of_week: monday
   subregion: Eastern Europe
   un_locode: RO
+  un_member: true
   unofficial_names:
   - ROM
   - Romania
@@ -63,4 +65,5 @@ RO:
     - 9
     super_reduced:
     parking:
+  vehicle_registration_code: RO
   world_region: EMEA

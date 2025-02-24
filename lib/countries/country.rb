@@ -3,17 +3,19 @@
 module ISO3166
   class Country
     extend CountryClassMethods
+    extend ConversionMethods
     extend CountryFinderMethods
     include Emoji
+    include CountrySubdivisionMethods
     attr_reader :data
 
-    ISO3166::DEFAULT_COUNTRY_HASH.each do |method_name, _type|
+    ISO3166::DEFAULT_COUNTRY_HASH.each_key do |method_name|
       define_method method_name do
         data[method_name.to_s]
       end
     end
 
-    ISO3166::DEFAULT_COUNTRY_HASH['geo'].each do |method_name, _type|
+    ISO3166::DEFAULT_COUNTRY_HASH['geo'].each_key do |method_name|
       define_method method_name do
         data['geo'][method_name.to_s]
       end
@@ -50,65 +52,24 @@ module ISO3166
       to_s <=> other.to_s
     end
 
-    #  +true+ if this Country has any Subdivisions.
-    def subdivisions?
-      !subdivisions.empty?
-    end
-
-    # @return [Array<ISO3166::Subdivision>] the list of subdivisions for this Country.
-    def subdivisions
-      @subdivisions ||= if data['subdivisions']
-                          ISO3166::Data.create_subdivisions(data['subdivisions'])
-                        else
-                          ISO3166::Data.subdivisions(alpha2)
-                        end
-    end
-
-    # @param types [Array<String>] The locale to use for translations.
-    # @return [Array<ISO3166::Subdivision>] the list of subdivisions of the given type(s) for this Country.
-    def subdivisions_of_types(types)
-      subdivisions.select{|k,v| types.include?(v.type)}
-    end
-
-    # @return [Array<String>] the list of subdivision types for this country
-    def subdivision_types
-      subdivisions.map{|k,v| v['type']}.uniq
-    end
-
-    # @return [Array<String>] the list of humanized subdivision types for this country. Uses ActiveSupport's `#humanize` if available
-    def humanized_subdivision_types
-      if String.instance_methods.include?(:humanize)
-        subdivisions.map{|k,v| v['type'].humanize}.uniq
-      else
-        subdivisions.map{|k,v| v['type'][0].upcase + v['type'].tr('_', ' ')[1..-1]}.uniq
-      end
-    end
-
-    # @param locale [String] The locale to use for translations.
-    # @return [Array<Array>] This Country's subdivision pairs of names and codes.
-    def subdivision_names_with_codes(locale = 'en')
-      subdivisions.map { |k, v| [v.translations[locale] || v.name, k] }
-    end
-
-    # @param locale [String] The locale to use for translations.
-    # @return [Array<String>] A list of subdivision names for this country.
-    def subdivision_names(locale = 'en')
-      subdivisions.map { |k, v| v.translations[locale] || v.name }
-    end
-
-    def states
-      if RUBY_VERSION =~ /^3\.\d\.\d/
-        warn "DEPRECATION WARNING: The Country#states method has been deprecated and will be removed in 6.0. Please use Country#subdivisions instead.", uplevel: 1, category: :deprecated
-      else
-        warn "DEPRECATION WARNING: The Country#states method has been deprecated and will be removed in 6.0. Please use Country#subdivisions instead.", uplevel: 1
-      end
-
-      subdivisions
-    end
-
     # +true+ if this country is a member of the European Union.
     def in_eu?
       data['eu_member'].nil? ? false : data['eu_member']
+    end
+
+    # +true+ if this country is a member of the G7.
+    def in_g7?
+      data['g7_member'].nil? ? false : data['g7_member']
+    end
+
+    # +true+ if this country is a member of the G20.
+    def in_g20?
+      data['g20_member'].nil? ? false : data['g20_member']
+    end
+
+    # +true+ if this country is a member of the European Economic Area or it is UK
+    def gdpr_compliant?
+      data['eea_member'] || alpha2 == 'GB'
     end
 
     # +true+ if this country is a member of the European Economic Area.
@@ -119,6 +80,21 @@ module ISO3166
     # +true+ if this country is a member of the European Single Market.
     def in_esm?
       data['esm_member'].nil? ? in_eea? : data['esm_member']
+    end
+
+    # +true+ if this country is a member of the EU VAT Area.
+    def in_eu_vat?
+      data['euvat_member'].nil? ? in_eu? : data['euvat_member']
+    end
+
+    # +true+ if this country is a member of the United Nations.
+    def in_un?
+      data['un_member'].nil? ? false : data['un_member']
+    end
+
+    # @return [String] The regex for valid postal codes in this Country
+    def postal_code_format
+      "\\A#{data['postal_code_format']}\\Z" if postal_code
     end
 
     def to_s
@@ -142,7 +118,7 @@ module ISO3166
       translation('en')
     end
 
-    # @return [Array<String>] TThe list of names for this Country, in this Country's locales.
+    # @return [Array<String>] The list of names for this Country, in this Country's locales.
     def local_names
       ISO3166.configuration.locales = (ISO3166.configuration.locales + languages.map(&:to_sym)).uniq
       reload
@@ -172,6 +148,9 @@ module ISO3166
     #
     # @!attribute currency_code
     #   @return [String] the ISO 4217 currency code for this Country
+    #
+    # @!attribute distance_unit
+    #   @return [String] the unit for roading distance and speed for this Country
     #
     # @!attribute gec
     #   @return [String] the "Geopolitical Entities and Codes", formerly FIPS 10-4 code for this Country
@@ -215,9 +194,6 @@ module ISO3166
     # @!attribute postal_code
     #   @return [Boolean] Does this Country uses postal codes in addresses
     #
-    # @!attribute postal_code_format
-    #   @return [String] The regex for valid postal codes in this Country
-    #
     # @!attribute region
     #   @return [String] The Region this country is in. Approximately matches the United Nations geoscheme
     #
@@ -235,6 +211,9 @@ module ISO3166
     #
     # @!attribute vat_rates
     #   @return [Hash] the hash of VAT Rates for this Country
+    #
+    # @!attribute vehicle_registration_code
+    #   @return [String] The vehicle registration code for this Country
     #
     # @!attribute world_region
     #   @return [String] The "World Region" this country is in: +"AMER"+ , +"APAC"+ or +"EMEA"+

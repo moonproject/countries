@@ -8,6 +8,7 @@ module ISO3166
     'continent' => nil,
     'country_code' => nil,
     'currency_code' => nil,
+    'distance_unit' => nil,
     'gec' => nil,
     'geo' => {
       'latitude' => nil,
@@ -53,6 +54,7 @@ module ISO3166
       'super_reduced' => nil,
       'parking' => nil
     },
+    'vehicle_registration_code' => nil,
     'world_region' => nil
   }.freeze
 

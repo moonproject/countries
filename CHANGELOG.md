@@ -3,6 +3,116 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [7.1.1](https://github.com/countries/countries/releases/tag/v7.1.1') (2025/02/08 18:07 +00:00)
+
+## What's Changed
+
+* Update SK VAT rates for 2025 by @bobmaerten in https://github.com/countries/countries/pull/885
+
+## [7.1.0](https://github.com/countries/countries/releases/tag/v7.1.0') (2025/01/04 17:16 +00:00)
+
+## What's Changed
+* Add UN membership by @will-gant in https://github.com/countries/countries/pull/882
+* Add vehicle_registration_code attribute to countries data by @ch000 in https://github.com/countries/countries/pull/871
+* Add Ruby 3.4 to the test matrix by @pmor in https://github.com/countries/countries/pull/883
+* Add funding_uri to gemspec by @andrew in https://github.com/countries/countries/pull/873
+* Update Federal Subdivisions of Nepal with New Provinces by @himalayan-sanjeev in https://github.com/countries/countries/pull/874
+* Fix typos by @tagliala in https://github.com/countries/countries/pull/870
+* Add funding_uri to gemspec by @andrew in https://github.com/countries/countries/pull/873
+* Add nanp_prefix to DO by @vanniktech in https://github.com/countries/countries/pull/880
+* Add nanp_prefix to VA by @vanniktech in https://github.com/countries/countries/pull/879
+* Add nanp_prefix to VI by @vanniktech in https://github.com/countries/countries/pull/878
+* Add nanp_prefix to UM by @vanniktech in https://github.com/countries/countries/pull/877
+* Add nanp_prefix to PR by @vanniktech in https://github.com/countries/countries/pull/876
+* Add nanp_prefix to MP by @vanniktech in https://github.com/countries/countries/pull/875
+* nanp_prefix should be a String and not a List. by @vanniktech in https://github.com/countries/countries/pull/881
+
+## [7.0.0](https://github.com/countries/countries/releases/tag/v7.0.0') (2024/09/29 19:40 +00:00)
+
+Changing CHANGELOG entry format to use GitHub's generated release notes.
+
+**Breaking Changes**
+* Remove support for Ruby 3.0 (EOL 2024-04-23) by @pmor in https://github.com/countries/countries/pull/868
+* Remove deprecated `#state` method  (Deprecated since 5.1.0 - 2022-06-27) by @pmor in https://github.com/countries/countries/pull/869
+
+**What's Changed**
+* Update PY.yaml by @jaredwindover in https://github.com/countries/countries/pull/853
+* Languages updates by @pmor in https://github.com/countries/countries/pull/854
+* Change VAT rates for CH valid from 2024-01-01 by @phylor in https://github.com/countries/countries/pull/850
+* Add Great Britain as an Unofficial Name for GB by @djpremier in https://github.com/countries/countries/pull/855
+* Update CD.yaml and CG.yaml by @gabrielgaraujo in https://github.com/countries/countries/pull/857
+* Update MM.yaml by @gabrielgaraujo in https://github.com/countries/countries/pull/858
+* Correct Peterborough by @kylewelsby in https://github.com/countries/countries/pull/860
+* Fix ER currency code by @pmor in https://github.com/countries/countries/pull/861
+* VAT rate for Finland changed to 25.5% as of 2024-09-01 by @JanMSP in https://github.com/countries/countries/pull/864
+* Lazy load default locales by @lacco in https://github.com/countries/countries/pull/865
+* fix and tests by @CoderMiguel in https://github.com/countries/countries/pull/866
+
+## [6.0.1](https://github.com/countries/countries/releases/tag/v6.0.1') (2024/05/18 11:35 +00:00)
+
+* Adds the unofficial localized name of Bulgaria in Bulgarian [\#844](https://github.com/countries/countries/pull/844) ([itay-grudev](https://github.com/itay-grudev))
+* Update GT subdivisions [\#839](https://github.com/countries/countries/pull/839) ([sineed](https://github.com/sineed))
+* Update Estonia standard VAT from 20% to 22% (January 1st 2024 change) [\#849](https://github.com/countries/countries/pull/849) ([jarthod](https://github.com/jarthod))
+* Add fy language to NL, fixes #843 [\#846](https://github.com/countries/countries/pull/846) ([pmor](https://github.com/pmor))
+* Add conversion methods for country codes [\#847](https://github.com/countries/countries/pull/847) ([mechnicov](https://github.com/mechnicov))
+
+## [6.0.0](https://github.com/countries/countries/releases/tag/v6.0.0') (2024/02/17 17:33 +00:00)
+
+**Breaking Changes**
+
+* Drop support for ruby 2.7 (EOL 2023-03-31) and add 3.3 to test matrix [\#830](https://github.com/countries/countries/pull/830) ([pmor](https://github.com/pmor))
+
+## [5.7.2](https://github.com/countries/countries/releases/tag/v5.7.2') (2024/02/17 11:09 +00:00)
+
+**Fixes:**
+* fix: Corrected the Japanese name of Kyrgyzstan to the official name of the country [\#831](https://github.com/countries/countries/pull/831) ([rjtt17](https://github.com/rjtt17))
+* Freeze Strings [\#833](https://github.com/countries/countries/pull/833) ([swiknaba](https://github.com/swiknaba))
+* remove unused gem retryable [\#834](https://github.com/countries/countries/pull/834) ([swiknaba](https://github.com/swiknaba))
+* Fix documentation for languages with dashes [\#835](https://github.com/countries/countries/pull/835) ([sunny](https://github.com/sunny))
+* Updates for India subdivision codes [\#836](https://github.com/countries/countries/pull/836) ([DarylMT](https://github.com/DarylMT))
+* Update LB.yaml IOC code [\#837](https://github.com/countries/countries/pull/837) ([pzupan](https://github.com/pzupan))
+* Update language and reduced VAT rate for Czechia [\#838](https://github.com/countries/countries/pull/838) ([cervm](https://github.com/cervm))
+
+## [5.7.1](https://github.com/countries/countries/releases/tag/v5.7.1') (2023/12/07 15:59 +00:00)
+
+**Fixes:**
+* Only include /lib in package [\#831](https://github.com/countries/countries/pull/831) ([patrickarnett](https://github.com/patrickarnett))
+* add more national length to PS [\#828](https://github.com/countries/countries/pull/828) ([shuaibzahda](https://github.com/shuaibzahda))
+* Fix wrong subdivision code for IR-09 [\#825](https://github.com/countries/countries/pull/825) ([pmor](https://github.com/pmor))
+
+## [5.7.0](https://github.com/countries/countries/releases/tag/v5.7.0') (2023/10/07 10:57 +00:00)
+
+**New Feature:**
+* Add distance_unit attribute to countries data [\#820](https://github.com/countries/countries/pull/820) ([dwtong](https://github.com/dwtong))
+
+**Fixes:**
+* North Macedonia LT translation [\#821](https://github.com/countries/countries/pull/821) ([tomukas](https://github.com/tomukas))
+* Fix Azerbaijão wording in pt-BR [\#819](https://github.com/countries/countries/pull/819) ([duduribeiro](https://github.com/duduribeiro))
+* Remove duplicate key in subdivisions/US.yaml [\#822](https://github.com/countries/countries/pull/822) ([pioz](https://github.com/pioz))
+
+
+## [5.6.0](https://github.com/countries/countries/releases/tag/v5.6.0') (2023/08/01 14:00 +00:00)
+
+* Fix Taiwan's iso_long_name not matching ISO data. [\#810](https://github.com/countries/countries/pull/810) ([pmor](https://github.com/pmor))
+* Wrap postal code format regex in anchors [\#814](https://github.com/countries/countries/pull/814) ([pmor](https://github.com/pmor))
+
+## [5.5.0](https://github.com/countries/countries/releases/tag/v5.5.0') (2023/06/17 16:20 +00:00)
+
+* Added G20 and G7 member fields [\#799](https://github.com/countries/countries/pull/799) ([AndromedaSugar](https://github.com/AndromedaSugar))
+* Update subdivision translations from CLDR [\#802](https://github.com/countries/countries/pull/802) ([pmor](https://github.com/pmor))
+* Adds Country#collect_countries_with, Country#collect_likely_subdivisions, Country.find_subdivision_with, Country.find_subdivision_code_with_translations [\#800](https://github.com/countries/countries/pull/800) ([pmor](https://github.com/pmor))
+* Add Japanese translation to subdivisions data  [\#804](https://github.com/countries/countries/pull/804) ([shucream-p](https://github.com/shucream-p))
+* Adding gdpr_compliant method to check if a country is regulated by GDPR [\#807](https://github.com/countries/countries/pull/807) ([yeseniamolinab](https://github.com/yeseniamolinab))
+
+## [5.4.0](https://github.com/countries/countries/releases/tag/v5.4.0') (2023/04/12 12:44 +00:00)
+
+* fix: RUP are part of the European Union [\#794](https://github.com/countries/countries/pull/794) ([btrd](https://github.com/btrd))
+* Fix wrong translation of MY in gn locale [\#798](https://github.com/countries/countries/pull/798) ([pmor](https://github.com/pmor))
+* Add EU VAT Area membership [\#796](https://github.com/countries/countries/pull/796) ([pmor](https://github.com/pmor))
+
+## [5.3.2](https://github.com/countries/countries/releases/tag/v5.3.2') (2023/03/31 13:46 +00:00)
+
+* Add Japanese translation for Czechia, North Macedonia and Eswatini [\#795](https://github.com/countries/countries/pull/795) ([nmbakfm](https://github.com/nmbakfm))
 
 ## [5.3.1](https://github.com/countries/countries/releases/tag/v5.3.1') (2023/01/26 14:05 +00:00)
 
@@ -89,7 +199,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - `Subdivision` now has a `type` attribute obtained from ISO3166-2 subdivision types. `type` is a _lowercase_ and _snake_cased_ string.
 - Adds `Country#subdivision_types` and `#humanized_subdivision_types` to list a country's subdivision types
 - Adds `Country#subdivisions_of_types(types)` to allow getting subdivisions of given type(s)
-- `Country#states` is now deprecated to avoid confusion (this method was just an alias to `#subdivisions` and retuns all subdivisions, regarless of type)
+- `Country#states` is now deprecated to avoid confusion (this method was just an alias to `#subdivisions` and returns all subdivisions, regardless of type)
 
 **Merged pull requests:**
 
@@ -342,7 +452,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add Ñuble region [\#598](https://github.com/hexorx/countries/pull/598) ([mbirman](https://github.com/mbirman))
 - Update Ireland Subdivision Formatting and Connacht and \(County\) Cork Data [\#596](https://github.com/hexorx/countries/pull/596) ([anastasiastowers](https://github.com/anastasiastowers))
 - Change the name of Macedonia to North Macedonia [\#585](https://github.com/hexorx/countries/pull/585) ([svetliomihailov](https://github.com/svetliomihailov))
-- Add Murica to United States unoffical names [\#577](https://github.com/hexorx/countries/pull/577) ([mikeyduece](https://github.com/mikeyduece))
+- Add Murica to United States unofficial names [\#577](https://github.com/hexorx/countries/pull/577) ([mikeyduece](https://github.com/mikeyduece))
 - Fix state codes from being returned as false [\#574](https://github.com/hexorx/countries/pull/574) ([akiellor](https://github.com/akiellor))
 - Update i18n\_data version [\#572](https://github.com/hexorx/countries/pull/572) ([tatarsky-v](https://github.com/tatarsky-v))
 - remove bin/console from gemspec [\#571](https://github.com/hexorx/countries/pull/571) ([patleb](https://github.com/patleb))
@@ -395,7 +505,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Memoize subdivision YAML loading [\#510](https://github.com/hexorx/countries/pull/510) ([mdehoog](https://github.com/mdehoog))
 - Update CZ country name [\#509](https://github.com/hexorx/countries/pull/509) ([minvs1](https://github.com/minvs1))
 - Add Ukraine vat rates [\#507](https://github.com/hexorx/countries/pull/507) ([jgrau](https://github.com/jgrau))
-- Corrected swedish transation for GB [\#505](https://github.com/hexorx/countries/pull/505) ([pidu](https://github.com/pidu))
+- Corrected swedish translation for GB [\#505](https://github.com/hexorx/countries/pull/505) ([pidu](https://github.com/pidu))
 - Remove empty :geo key and misspelled latitude [\#504](https://github.com/hexorx/countries/pull/504) ([normancapule](https://github.com/normancapule))
 - Update README.markdown [\#502](https://github.com/hexorx/countries/pull/502) ([gssbzn](https://github.com/gssbzn))
 

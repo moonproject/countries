@@ -2,8 +2,8 @@
 
 module ISO3166
   module CountryFinderMethods
-    FIND_BY_REGEX = /^find_(all_)?(country_|countries_)?by_(.+)/.freeze
-    SEARCH_TERM_FILTER_REGEX = /\(|\)|\[\]|,/.freeze
+    FIND_BY_REGEX = /^find_(all_)?(country_|countries_)?by_(.+)/
+    SEARCH_TERM_FILTER_REGEX = /\(|\)|\[\]|,/
 
     def search(query)
       country = new(query.to_s.upcase)
@@ -29,8 +29,8 @@ module ISO3166
 
     def method_missing(method_name, *arguments)
       matches = method_name.to_s.match(FIND_BY_REGEX)
-      return_all = matches[1]
       super unless matches
+      return_all = matches[1]
 
       countries = find_by(matches[3], arguments[0], matches[2])
       return_all ? countries : countries.last
@@ -57,15 +57,13 @@ module ISO3166
       raise "Invalid attribute name '#{attribute}'" unless searchable_attribute?(attribute.to_sym)
 
       attributes = Array(attribute.to_s)
-      if attribute.to_s == 'any_name'
-        attributes = %w[iso_long_name iso_short_name unofficial_names translated_names]
-      end
+      attributes = %w[iso_long_name iso_short_name unofficial_names translated_names] if attribute.to_s == 'any_name'
 
       [attributes, parse_value(val)]
     end
 
     def parse_value(value)
-      value = value.gsub(SEARCH_TERM_FILTER_REGEX, '') if value.respond_to?(:gsub)
+      value = value.gsub(SEARCH_TERM_FILTER_REGEX, '').freeze if value.respond_to?(:gsub)
       strip_accents(value)
     end
 
@@ -74,8 +72,7 @@ module ISO3166
     end
 
     def searchable_attributes
-      # Add name and names until we complete the deprecation of the finders
-      instance_methods - UNSEARCHABLE_METHODS + [:name, :names, :any_name]
+      instance_methods - UNSEARCHABLE_METHODS + %i[any_name]
     end
   end
 end

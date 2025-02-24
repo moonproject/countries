@@ -5,6 +5,7 @@ LA:
   continent: Asia
   country_code: '856'
   currency_code: LAK
+  distance_unit: KM
   gec: LA
   geo:
     latitude: 19.85627
@@ -41,8 +42,10 @@ LA:
   start_of_week: monday
   subregion: South-Eastern Asia
   un_locode: LA
+  un_member: true
   unofficial_names:
   - Laos
   - ラオス人民民主共和国
   - Lao People s Democratic Republic
+  vehicle_registration_code: LAO
   world_region: APAC

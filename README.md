@@ -61,7 +61,7 @@ Release 4.2.0 introduced changes to name attributes and finders and deprecated s
 
 The 5.0 release removed these deprecated methods and also removed support for Ruby 2.5 and 2.6
 
-Plase see [UPGRADE.md](../master/UPGRADE.md) for more information
+Please see [UPGRADE.md](../master/UPGRADE.md) for more information
 
 ## Attribute-Based Finder Methods
 
@@ -132,6 +132,18 @@ c.states # => {"CO" => {"name" => "Colorado", "names" => "Colorado"}, ... }
 
 # Get specific translations for the country subdivisions
 c.subdivision_names_with_codes('es') #=> [ ..., ["Nuevo Hampshire", "NH"], ["Nueva Jersey", "NJ"], ... ]
+
+# Subdivision code with translations for all loaded locales
+c.subdivisions['NY'].code_with_translations #=> {"NY"=>{"en"=>"New York"}, ...}
+```
+
+`#find_subdivision_by_name` Find a country's state using its code or name in any translation
+
+```ruby
+> ISO3166::Country.new("IT").find_subdivision_by_name("Toscana").geo
+ => {"latitude"=>43.771389, "longitude"=>11.254167, ... }
+> ISO3166::Country.new("IT").find_subdivision_by_name("Tuscany").geo
+ => {"latitude"=>43.771389, "longitude"=>11.254167, ... }
 ```
 
 ### Location
@@ -200,17 +212,77 @@ c.in_eea? # => false
 c.in_esm? # => false
 ```
 
-## Country Code in Emoji
+### EU VAT Area membership
+
+```ruby
+c.in_eu_vat? # => false
+```
+
+### UN membership
+
+```ruby
+c.in_un? # false
+```
+
+### GDPR Compliant (European Economic Area Membership or UK)
+
+```ruby
+c.gdpr_compliant? # => false
+```
+
+### Country Code in Emoji
 
 ```ruby
 c = Country['MY']
 c.emoji_flag # => "🇲🇾"
 ```
 
+### Country Distance Unit (miles/kilometres)
+
+```ruby
+c.distance_unit # => "MI"
+```
+
+### Country Vehicle Registration Code
+
+```ruby
+c.vehicle_registration_code # => "D"
+```
+
 ### Plucking multiple attributes
 
 ```ruby
 ISO3166::Country.pluck(:alpha2, :iso_short_name) # => [["AD", "Andorra"], ["AE", "United Arab Emirates"], ...
+```
+
+`.collect_countries_with` allows to collect various countries' information using any valid method and query value:
+```ruby
+> ISO3166::Country.collect_countries_with("VR",:subdivisions,:common_name)
+ => ["Italy", "Monaco"]
+> ISO3166::Country.collect_countries_with("Caribbean",:subregion,:languages_spoken).flatten.uniq
+ => ["en", "fr", "es", "ht", "nl"]
+> ISO3166::Country.collect_countries_with("Oceania",:region,:international_prefix).uniq
+ => ["00", "011", "0011", "19", "05"]
+> ISO3166::Country.collect_countries_with("Antarctica",:continent,:emoji_flag)
+ => ["🇦🇶", "🇬🇸", "🇧🇻", "🇹🇫", "🇭🇲"]
+> ISO3166::Country.collect_countries_with("🇸🇨",:emoji_flag,:common_name)
+ => ["Seychelles"]
+```
+
+`.collect_likely_countries_by_subdivision_name` allows to lookup all countries having the given state code or state name (in any translation)
+
+```ruby
+ISO3166::Country.collect_likely_countries_by_subdivision_name("San José",:common_name)
+ => ["Costa Rica", "Uruguay"]
+```
+
+### Conversions
+
+```ruby
+ISO3166::Country.from_alpha3_to_alpha2('USA') # => "US"
+ISO3166::Country.from_alpha2_to_alpha3('US') # => "USA"
+
+ISO3166::Country.from_alpha2_to_alpha3('--') # => nil
 ```
 
 ## Currencies
@@ -254,7 +326,7 @@ You can add all the locales like this.
 
 ```ruby
 ISO3166.configure do |config|
-  config.locales = [:af, :am, :ar, :as, :az, :be, :bg, :bn, :br, :bs, :ca, :cs, :cy, :da, :de, :dz, :el, :en, :eo, :es, :et, :eu, :fa, :fi, :fo, :fr, :ga, :gl, :gu, :he, :hi, :hr, :hu, :hy, :ia, :id, :is, :it, :ja, :ka, :kk, :km, :kn, :ko, :ku, :lt, :lv, :mi, :mk, :ml, :mn, :mr, :ms, :mt, :nb, :ne, :nl, :nn, :oc, :or, :pa, :pl, :ps, :pt, :ro, :ru, :rw, :si, :sk, :sl, :so, :sq, :sr, :sv, :sw, :ta, :te, :th, :ti, :tk, :tl, :tr, :tt, :ug, :uk, :ve, :vi, :wa, :wo, :xh, :zh, :zu]
+  config.locales = [:af, :am, :ar, :as, :az, :be, :bg, :bn, :br, :bs, :ca, :cs, :cy, :da, :de, :dz, :el, :en, :eo, :es, :et, :eu, :fa, :fi, :fo, :fr, :ga, :gl, :gu, :he, :hi, :hr, :hu, :hy, :ia, :id, :is, :it, :ja, :ka, :kk, :km, :kn, :ko, :ku, :lt, :lv, :mi, :mk, :ml, :mn, :mr, :ms, :mt, :nb, :ne, :nl, :nn, :oc, :or, :pa, :pl, :ps, :pt, :"pt-BR", :ro, :ru, :rw, :si, :sk, :sl, :so, :sq, :sr, :sv, :sw, :ta, :te, :th, :ti, :tk, :tl, :tr, :tt, :ug, :uk, :ve, :vi, :wa, :wo, :xh, :"zh-cn", :"zh-tw", :zu]
 end
 ```
 

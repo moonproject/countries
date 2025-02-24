@@ -5,6 +5,7 @@ CW:
   continent: North America
   country_code: '599'
   currency_code: ANG
+  distance_unit: KM
   gec: UC
   geo:
     latitude: 12.16957
@@ -40,6 +41,7 @@ CW:
   start_of_week: monday
   subregion: Caribbean
   un_locode: CW
+  un_member: false
   unofficial_names:
   - Curaçao
   - キュラソー島

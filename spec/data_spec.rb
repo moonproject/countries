@@ -46,13 +46,9 @@ describe ISO3166::Data do
   end
 
   it 'locales will load prior to return results' do
-    # require 'memory_profiler'
     ISO3166.configuration.locales = %i[es de en]
-    # report = MemoryProfiler.report do
     ISO3166::Data.update_cache
-    # end
 
-    # report.pretty_print(to_file: 'tmp/memory/3_locales')
     ISO3166::Data.update_cache
 
     ISO3166.configure do |config|
@@ -63,13 +59,8 @@ describe ISO3166::Data do
                           sr sv sw ta te th ti tk tl tr tt ug uk ve vi wa wo xh
                           zh zu]
     end
-    # puts Benchmark.measure {ISO3166::Data.update_cache}
 
-    # report = MemoryProfiler.report do
     ISO3166::Data.update_cache
-    # end
-
-    # report.pretty_print(to_file: 'tmp/memory/all_locales')
 
     expect(ISO3166::Country.new('DE').translations.size).to eq 92
 
@@ -128,7 +119,7 @@ describe ISO3166::Data do
 
     it 'can be done' do
       data = ISO3166::Data.new('TW').call
-      ISO3166.configuration.locales = [:es, :de, :de]
+      ISO3166.configuration.locales = %i[es de de]
       expect(data['iso_short_name']).to eq 'NEW Taiwan'
       expect(subject.iso_short_name).to eq 'NEW Taiwan'
       expect(subject.translations).to eq('en' => 'NEW Taiwan',
@@ -205,18 +196,18 @@ describe ISO3166::Data do
       it 'has a non-blank code for all subdivisions' do
         Dir['lib/countries/data/subdivisions/*.yaml'].each do |file|
           data = YAML.load_file(file)
-          expect(data.values.none?{|s| s['code'].nil? }).to be_truthy, "empty subdivision code in #{file}"
+          expect(data.values.none? { |s| s['code'].nil? }).to be_truthy, "empty subdivision code in #{file}"
         end
       end
 
       it 'has a non-blank, lowercase and snake_case type for all subdivisions' do
         Dir['lib/countries/data/subdivisions/*.yaml'].each do |file|
           data = YAML.load_file(file)
-          no_type = data.select{|k,v| v['type'].nil? }
+          no_type = data.select { |_k, v| v['type'].nil? }
           expect(no_type).to be_empty, "empty subdivision type in #{file} - #{no_type.keys}"
-          uppercase = data.select{|k,v| v['type'] =~ /[A-Z]/ }
+          uppercase = data.select { |_k, v| v['type'] =~ /[A-Z]/ }
           expect(uppercase).to be_empty, "uppercase characters in subdivision type in #{file} - #{uppercase.keys}"
-          spaces = data.select{|k,v| v['type'] =~ /\s/ }
+          spaces = data.select { |_k, v| v['type'] =~ /\s/ }
           expect(spaces).to be_empty, "whitespace characters in subdivision type in #{file} - #{spaces.keys}"
         end
       end
@@ -224,7 +215,7 @@ describe ISO3166::Data do
       it 'has a non-blank name for all subdivisions' do
         Dir['lib/countries/data/subdivisions/*.yaml'].each do |file|
           data = YAML.load_file(file)
-          expect(data.values.none?{|s| s['name'].nil? }).to be_truthy, "empty subdivision name in #{file}"
+          expect(data.values.none? { |s| s['name'].nil? }).to be_truthy, "empty subdivision name in #{file}"
         end
       end
     end
@@ -232,13 +223,17 @@ describe ISO3166::Data do
     context 'cached country subdivision data' do
       it 'has a non-blank code for all subdivisions' do
         ISO3166::Country.all.each do |country|
-          expect(country.subdivisions.values.none?{|s| s['code'].nil? }).to be_truthy, "empty subdivision code in #{country}"
+          expect(country.subdivisions.values.none? do |s|
+                   s['code'].nil?
+                 end).to be_truthy, "empty subdivision code in #{country}"
         end
       end
 
       it 'has a non-blank name for all subdivisions' do
         ISO3166::Country.all.each do |country|
-          expect(country.subdivisions.values.none?{|s| s['name'].nil? }).to be_truthy, "empty subdivision name in #{country}"
+          expect(country.subdivisions.values.none? do |s|
+                   s['name'].nil?
+                 end).to be_truthy, "empty subdivision name in #{country}"
         end
       end
     end

@@ -5,6 +5,7 @@ KM:
   continent: Africa
   country_code: '269'
   currency_code: KMF
+  distance_unit: KM
   gec: CN
   geo:
     latitude: -11.6455
@@ -42,10 +43,12 @@ KM:
   start_of_week: monday
   subregion: Eastern Africa
   un_locode: KM
+  un_member: true
   unofficial_names:
   - Comoros
   - Union der Komoren
   - Comores
   - コモロ
   - Comoren
+  vehicle_registration_code: COM
   world_region: EMEA

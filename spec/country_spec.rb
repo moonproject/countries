@@ -3,7 +3,12 @@
 require 'spec_helper'
 NUM_OF_COUNTRIES = 250
 describe ISO3166::Country do
-  before { ISO3166.configuration.enable_currency_extension! }
+  before do
+    ISO3166.configuration.locales = %i[en]
+    ISO3166::Data.reset
+    ISO3166.configuration.enable_currency_extension!
+  end
+
   let(:country) { ISO3166::Country.search('US') }
 
   it 'allows to create a country object from a symbol representation of the alpha2 code' do
@@ -48,11 +53,11 @@ describe ISO3166::Country do
   end
 
   it 'should return alternate names' do
-    expect(country.unofficial_names).to eq(["United States", "USA",
-                                            "Vereinigte Staaten von Amerika",
-                                            "États-Unis", "Estados Unidos",
-                                            "アメリカ合衆国", "Verenigde Staten",
-                                            "Соединенные Штаты Америки"])
+    expect(country.unofficial_names).to eq(['United States', 'USA',
+                                            'Vereinigte Staaten von Amerika',
+                                            'États-Unis', 'Estados Unidos',
+                                            'アメリカ合衆国', 'Verenigde Staten',
+                                            'Соединенные Штаты Америки'])
   end
 
   it 'should return translations' do
@@ -76,6 +81,10 @@ describe ISO3166::Country do
     expect(country.continent).to eq('North America')
   end
 
+  it 'should return distance unit' do
+    expect(country.distance_unit).to eq('MI')
+  end
+
   it 'knows about whether or not the country uses postal codes' do
     expect(country.zip).to be_truthy
   end
@@ -90,6 +99,7 @@ describe ISO3166::Country do
 
     regex = Regexp.new(country.postal_code_format)
     expect(regex).to match('12345-6789')
+    expect(regex).not_to match('12345-67890')
 
     antarctica = ISO3166::Country.search('AQ')
     expect(antarctica.postal_code_format).to be_nil
@@ -101,6 +111,10 @@ describe ISO3166::Country do
 
   it 'should return subregion' do
     expect(country.subregion).to eq('Northern America')
+  end
+
+  it 'should return vehicle registration code' do
+    expect(country.vehicle_registration_code).to eq('USA')
   end
 
   it 'should return world region' do
@@ -149,7 +163,7 @@ describe ISO3166::Country do
         ISO3166::Data.register(
           alpha2: 'BR2',
           iso_short_name: 'Brazil',
-          languages_official: %w(pt-BR),
+          languages_official: %w[pt-BR],
           translations: {
             'pt-BR' => 'Translation for pt-BR',
             'pt' => 'Translation for pt'
@@ -173,7 +187,7 @@ describe ISO3166::Country do
         ISO3166::Data.register(
           alpha2: 'BR2',
           iso_short_name: 'Brazil',
-          languages_official: %w(pt-BR),
+          languages_official: %w[pt-BR],
           translations: {
             'pt' => 'Translation for pt'
           }
@@ -240,10 +254,6 @@ describe ISO3166::Country do
       expect(country.subdivisions.size).to eq(57)
     end
 
-    it '#states should be deprecated' do
-      expect {country.states}.to output.to_stderr
-    end
-
     it 'should be a subdivision object' do
       expect(virginia).to be_a(ISO3166::Subdivision)
     end
@@ -262,54 +272,54 @@ describe ISO3166::Country do
   end
 
   describe 'subdivision_types' do
-    it "should return an array of subdivision types" do
+    it 'should return an array of subdivision types' do
       expect(country.subdivision_types).to contain_exactly('district', 'state', 'outlying_area')
     end
 
-    it "should return an array of subdivision types even if there is only a single type" do
+    it 'should return an array of subdivision types even if there is only a single type' do
       expect(ISO3166::Country['LI'].subdivision_types).to contain_exactly('commune')
     end
 
-    it "should return an empty array if country has no subdivisions" do
+    it 'should return an empty array if country has no subdivisions' do
       expect(ISO3166::Country['AS'].subdivisions?).to be_falsey
       expect(ISO3166::Country['AS'].subdivision_types).to eq([])
     end
   end
 
   describe 'subdivisions_of_types' do
-    it "given a single type, should return an array of subdivisions that match the type" do
+    it 'given a single type, should return an array of subdivisions that match the type' do
       us_states = country.subdivisions_of_types(%w[state])
       expect(us_states.size).to eq(50)
       dc = country.subdivisions_of_types(%w[district])
       expect(dc.size).to eq(1)
     end
 
-    it "given multiple types, should return an array of subdivisions matching the types" do
+    it 'given multiple types, should return an array of subdivisions matching the types' do
       us_states_plus_dc = country.subdivisions_of_types(%w[state district])
       expect(us_states_plus_dc.size).to eq(51)
     end
 
-    it "given multiple types where at least one does not exist for that country, should work without issue" do
+    it 'given multiple types where at least one does not exist for that country, should work without issue' do
       us_states_plus_dc = country.subdivisions_of_types(%w[state district governorate])
       expect(us_states_plus_dc.size).to eq(51)
     end
 
-    it "given only types that do not exist for that country, should return an empty collection" do
+    it 'given only types that do not exist for that country, should return an empty collection' do
       should_be_empty = ISO3166::Country['PT'].subdivisions_of_types(%w[state county])
       expect(should_be_empty).to be_empty
     end
   end
 
   describe 'humanized_subdivision_types' do
-    it "should return an array of humanized subdivision types" do
+    it 'should return an array of humanized subdivision types' do
       expect(country.humanized_subdivision_types).to contain_exactly('District', 'State', 'Outlying area')
     end
 
-    it "should return an array of subdivision types even if there is only a single type" do
+    it 'should return an array of subdivision types even if there is only a single type' do
       expect(ISO3166::Country['LI'].humanized_subdivision_types).to contain_exactly('Commune')
     end
 
-    it "should return an empty array if country has no subdivisions" do
+    it 'should return an empty array if country has no subdivisions' do
       expect(ISO3166::Country['AS'].subdivisions?).to be_falsey
       expect(ISO3166::Country['AS'].humanized_subdivision_types).to eq([])
     end
@@ -326,6 +336,7 @@ describe ISO3166::Country do
 
     it 'should return an alphabetized list of subdivision names translated to current locale with codes' do
       ISO3166.configuration.locales = %i[es de en]
+      ISO3166::Data.reset
 
       subdivisions = ISO3166::Country.search('EG').subdivision_names_with_codes(:es)
       expect(subdivisions).to be_an(Array)
@@ -346,6 +357,7 @@ describe ISO3166::Country do
 
     it 'should return an alphabetized list of subdivision names translated to current locale with codes' do
       ISO3166.configuration.locales = %i[es de en]
+      ISO3166::Data.reset
 
       subdivisions = ISO3166::Country.search('EG').subdivision_names(:es)
       expect(subdivisions).to be_an(Array)
@@ -652,6 +664,40 @@ describe ISO3166::Country do
     end
   end
 
+  describe 'conversion methods' do
+    describe 'from_alpha2_to_alpha3' do
+      subject { ISO3166::Country.from_alpha2_to_alpha3(alpha2) }
+
+      context 'when country exists' do
+        let(:alpha2) { 'US' }
+
+        it { is_expected.to eq('USA') }
+      end
+
+      context 'when country does not exist' do
+        let(:alpha2) { '..' }
+
+        it { is_expected.to be_nil }
+      end
+    end
+
+    describe 'from_alpha3_to_alpha2' do
+      subject { ISO3166::Country.from_alpha3_to_alpha2(alpha3) }
+
+      context 'when country exists' do
+        let(:alpha3) { 'USA' }
+
+        it { is_expected.to eq('US') }
+      end
+
+      context 'when country does not exist' do
+        let(:alpha3) { '...' }
+
+        it { is_expected.to be_nil }
+      end
+    end
+  end
+
   describe 'hash finder methods' do
     context "when search name in 'iso_short_name'" do
       subject { ISO3166::Country.find_by_iso_short_name('Poland') }
@@ -878,7 +924,12 @@ describe ISO3166::Country do
     context 'regression test for #388/#746/#776' do
       before do
         ISO3166.configure do |config|
-          config.locales = [:af, :am, :ar, :as, :az, :be, :bg, :bn, :br, :bs, :ca, :cs, :cy, :da, :de, :dz, :el, :en, :eo, :es, :et, :eu, :fa, :fi, :fo, :fr, :ga, :gl, :gu, :he, :hi, :hr, :hu, :hy, :ia, :id, :is, :it, :ja, :ka, :kk, :km, :kn, :ko, :ku, :lt, :lv, :mi, :mk, :ml, :mn, :mr, :ms, :mt, :nb, :ne, :nl, :nn, :oc, :or, :pa, :pl, :ps, :pt, :ro, :ru, :rw, :si, :sk, :sl, :so, :sq, :sr, :sv, :sw, :ta, :te, :th, :ti, :tk, :tl, :tr, :tt, :ug, :uk, :ve, :vi, :wa, :wo, :xh, :zh, :zu]
+          config.locales = %i[af am ar as az be bg bn br bs ca cs cy da de dz el en
+                              eo es et eu fa fi fo fr ga gl gu he hi hr hu hy ia id
+                              is it ja ka kk km kn ko ku lt lv mi mk ml mn mr ms mt
+                              nb ne nl nn oc or pa pl ps pt ro ru rw si sk sl so sq
+                              sr sv sw ta te th ti tk tl tr tt ug uk ve vi wa wo xh
+                              zh zu]
         end
       end
 
@@ -982,6 +1033,19 @@ describe ISO3166::Country do
         expect(country).to be_a(ISO3166::Country)
       end
     end
+
+    context 'regressions for #863' do
+      context 'method_missing' do
+        it 'does not provide a red herring error message' do
+          expect { ISO3166::Country.undefined_method }.to raise_error(NoMethodError) do |error|
+            expect(error.message).to_not match Regexp.new("undefined method `#{Regexp.escape('[]')}' for nil:NilClass")
+          end
+        end
+        it 'provides the expected error message' do
+          expect { ISO3166::Country.undefined }.to raise_error(NoMethodError, /undefined method (`||')undefined'/)
+        end
+      end
+    end
   end
 
   describe 'finder methods respond_to_missing?' do
@@ -1071,6 +1135,24 @@ describe ISO3166::Country do
     end
   end
 
+  describe 'gdpr_compliant?' do
+    let(:united_kigndom) { ISO3166::Country.search('GB') }
+    let(:france) { ISO3166::Country.search('FR') }
+    let(:mexico) { ISO3166::Country.search('MX') }
+
+    it 'should return false for countries without eea_member flag' do
+      expect(mexico.gdpr_compliant?).to be_falsey
+    end
+
+    it 'should return true for countries with eea_member flag set to true' do
+      expect(france.gdpr_compliant?).to be_truthy
+    end
+
+    it 'should return true for UK' do
+      expect(united_kigndom.gdpr_compliant?).to be_truthy
+    end
+  end
+
   describe 'in_esm?' do
     let(:netherlands) { ISO3166::Country.search('NL') }
     let(:switzerland) { ISO3166::Country.search('CH') }
@@ -1085,6 +1167,42 @@ describe ISO3166::Country do
 
     it 'should return true for countries with esm_member flag set to true' do
       expect(switzerland.in_esm?).to be_truthy
+    end
+  end
+
+  describe 'in_eu_vat?' do
+    let(:netherlands) { ISO3166::Country.search('NL') }
+    let(:guadeloupe) { ISO3166::Country.search('GP') }
+    let(:monaco) { ISO3166::Country.search('MC') }
+
+    it 'should return false for countries without euvat_member or eu_member flag' do
+      expect(country.in_eu_vat?).to be_falsey
+    end
+
+    it 'should return true for countries with eu_member flag set to true' do
+      expect(netherlands.in_eu_vat?).to be_truthy
+    end
+
+    it 'should return false for countries with euvat_member flag set to false' do
+      expect(guadeloupe.in_eu_vat?).to be_falsey
+    end
+
+    it 'should return true for countries with euvat_member flag set to true' do
+      expect(monaco.in_eu_vat?).to be_truthy
+    end
+  end
+
+  describe 'in_un?' do
+    let(:united_states) { ISO3166::Country.search('US') }
+    let(:kiribati) { ISO3166::Country.search('KI') }
+    let(:norfolk_island) { ISO3166::Country.search('NF') }
+
+    it 'should return true for countries with un_member flag set to true' do
+      expect(united_states.in_un?).to be_truthy
+    end
+
+    it 'should return false for countries with un_member flag set to false' do
+      expect(norfolk_island.in_un?).to be_falsey
     end
   end
 
@@ -1131,7 +1249,7 @@ describe ISO3166::Country do
       expect(ISO3166::Country('us')).to eq country
     end
 
-    it 'should return country if not convertable input given' do
+    it 'should return country if not convertible input given' do
       expect do
         ISO3166::Country(42)
       end.to raise_error(TypeError, /can't convert ([A-z]+) into ISO3166::Country/)
@@ -1192,13 +1310,83 @@ describe ISO3166::Country do
       expect(subject.last).to be_empty
     end
 
-    context "when asking for alpha2, alpha3 and iso_short_name" do
-      let(:args) { [:alpha2, :alpha3, :iso_short_name] }
+    context 'when asking for alpha2, alpha3 and iso_short_name' do
+      let(:args) { %i[alpha2 alpha3 iso_short_name] }
 
       it 'returns the correct values' do
         expect(subject.first).to eq(%w[AD AND Andorra])
         expect(subject.last).to eq(%w[ZW ZWE Zimbabwe])
       end
+    end
+
+    context 'with invalid attributes' do
+      let(:args) { %i[alpha2 bad_attribute] }
+
+      it 'should raise an error' do
+        expect { subject }.to(
+          raise_error(KeyError, 'key not found: "bad_attribute"')
+        )
+      end
+    end
+  end
+
+  describe 'find_subdivision_by_name' do
+    let(:italy) { ISO3166::Country.new('IT') }
+    let(:napoli) { italy.subdivisions['NA'] }
+
+    before do
+      ISO3166.configuration.locales = %i[pt]
+      ISO3166::Data.reset
+    end
+
+    it 'should find a subdivision using the official name' do
+      expect(ISO3166::Country.new('IT').find_subdivision_by_name('Napoli')).to eq napoli
+    end
+
+    it 'should find a subdivision using the code' do
+      expect(ISO3166::Country.new('IT').find_subdivision_by_name('NA')).to eq napoli
+    end
+
+    it 'should find a subdivision using a translated name' do
+      expect(ISO3166::Country.new('IT').find_subdivision_by_name('Nápoles')).to eq napoli
+    end
+  end
+
+  describe 'collect_countries_with' do
+    let(:italy) { ISO3166::Country.new('IT') }
+    let(:vatican) { ISO3166::Country.new('VA') }
+    let(:san_marino) { ISO3166::Country.new('SM') }
+    let(:switzerland) { ISO3166::Country.new('CH') }
+    let(:seychelles) { ISO3166::Country.new('SC') }
+
+    it 'defaults to querying alpha2 and returning the countries' do
+      expect(ISO3166::Country.collect_countries_with('IT')).to eq [italy]
+    end
+
+    it 'allows querying by other attributes' do
+      expect(ISO3166::Country.collect_countries_with('🇸🇨', :emoji_flag)).to eq [seychelles]
+      expect(ISO3166::Country.collect_countries_with('it',
+                                                     :languages_spoken)).to eq [switzerland, italy, san_marino, vatican]
+    end
+
+    it 'allows applying a method to the result set' do
+      expect(ISO3166::Country.collect_countries_with('Caribbean', :subregion,
+                                                     :languages_spoken).flatten.uniq).to eq %w[en nl fr es ht]
+    end
+  end
+
+  describe 'collect_likely_countries_by_subdivision_name' do
+    let(:costa_rica) { ISO3166::Country.new('CR') }
+    let(:uruguay) { ISO3166::Country.new('UY') }
+
+    it 'defaults to returning the countries' do
+      expect(ISO3166::Country.collect_likely_countries_by_subdivision_name('San José')).to eq [costa_rica, uruguay]
+    end
+
+    it 'allows applying a method to the result set' do
+      expect(ISO3166::Country.collect_likely_countries_by_subdivision_name('San José',
+                                                                           :iso_short_name)).to eq ['Costa Rica',
+                                                                                                    'Uruguay']
     end
   end
 end
