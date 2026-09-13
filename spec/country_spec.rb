@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-NUM_OF_COUNTRIES = 249
+NUM_OF_COUNTRIES = 250
 describe ISO3166::Country do
   before do
     ISO3166.configuration.locales = %i[en]
@@ -467,7 +467,9 @@ describe ISO3166::Country do
       expect(countries.first).to eq('Andorra')
       # countries missing the desired locale will not be added to the list
       # so all 250 countries may not be returned, 'pt' returns 249, for example
-      expect(countries.size).to eq(NUM_OF_COUNTRIES)
+      # Kosovo (XK) is a Mooncard addition with en/fr names only, so a locale without an XK
+      # translation returns one fewer. Upstream's own comment above anticipates exactly this.
+      expect(countries.size).to eq(NUM_OF_COUNTRIES - 1)
     end
 
     it 'should return an alphabetized list of all country names in English if no locale is passed' do
@@ -607,7 +609,9 @@ describe ISO3166::Country do
       expect(countries.first).to eq(%w[AD Andorra])
       # countries missing the desired locale will not be added to the list
       # so all 250 countries may not be returned, 'pt' returns 249, for example
-      expect(countries.size).to eq(NUM_OF_COUNTRIES)
+      # Kosovo (XK) is a Mooncard addition with en/fr names only, so a locale without an XK
+      # translation returns one fewer. Upstream's own comment above anticipates exactly this.
+      expect(countries.size).to eq(NUM_OF_COUNTRIES - 1)
     end
 
     it 'should return an hash of all country names in English if no locale is passed' do
@@ -625,7 +629,9 @@ describe ISO3166::Country do
       expect(countries.first).to eq(%w[AD Andorra])
       # countries missing the desired locale will not be added to the list
       # so all 250 countries may not be returned, 'pt' returns 249, for example
-      expect(countries.size).to eq(NUM_OF_COUNTRIES)
+      # Kosovo (XK) is a Mooncard addition with en/fr names only, so a locale without an XK
+      # translation returns one fewer. Upstream's own comment above anticipates exactly this.
+      expect(countries.size).to eq(NUM_OF_COUNTRIES - 1)
     end
 
     it 'should return an hash of all country names translated to the selected locale when locale is symbol with uppercase chars' do
@@ -635,7 +641,9 @@ describe ISO3166::Country do
       expect(countries.first).to eq(%w[AD Andorra])
       # countries missing the desired locale will not be added to the list
       # so all 250 countries may not be returned, 'pt' returns 249, for example
-      expect(countries.size).to eq(NUM_OF_COUNTRIES)
+      # Kosovo (XK) is a Mooncard addition with en/fr names only, so a locale without an XK
+      # translation returns one fewer. Upstream's own comment above anticipates exactly this.
+      expect(countries.size).to eq(NUM_OF_COUNTRIES - 1)
     end
   end
 
