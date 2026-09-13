@@ -25,6 +25,7 @@ NE:
   ioc: NIG
   iso_long_name: The Republic of the Niger
   iso_short_name: Niger
+  iso_short_name_lower_case: Niger (the)
   languages_official:
   - fr
   languages_spoken:

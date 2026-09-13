@@ -25,6 +25,7 @@ VA:
   ioc:
   iso_long_name: The Holy See
   iso_short_name: Holy See
+  iso_short_name_lower_case: Holy See (the)
   languages_official:
   - it
   - la
@@ -37,7 +38,7 @@ VA:
   national_number_lengths:
   - 9
   national_prefix: None
-  nationality: Italian
+  nationality: Vatican Citizen
   number: '336'
   postal_code: true
   postal_code_format: '00120'
@@ -48,6 +49,7 @@ VA:
   un_member: false
   unofficial_names:
   - Vatican City
+  - Holy See
   - Vatikan
   - Cité du Vatican
   - Ciudad del Vaticano

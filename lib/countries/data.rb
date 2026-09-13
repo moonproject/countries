@@ -14,7 +14,10 @@ module ISO3166
     @subdivisions = {}
 
     def initialize(alpha2)
-      @alpha2 = alpha2.to_s.upcase
+      alpha2 = alpha2.to_s if alpha2.is_a?(Symbol)
+      alpha2 = alpha2.upcase if alpha2.match?(/[a-z]/)
+
+      @alpha2 = alpha2
     end
 
     def call
@@ -27,8 +30,9 @@ module ISO3166
       # Overriding an existing country will also remove it from the internal management of translations.
       def register(data)
         alpha2 = data[:alpha2].upcase
-        @registered_data[alpha2] = deep_stringify_keys(data)
-        @registered_data[alpha2]['translations'] = Translations.new.merge(data['translations'] || {})
+        @registered_data[alpha2] = deep_stringify_keys(data.except('translations', :translations))
+        translations = (data['translations'] || data[:translations] || {}).transform_keys(&:to_sym)
+        @registered_data[alpha2]['translations'] = Translations.new.merge(translations)
         @cache = cache.merge(@registered_data)
       end
 
@@ -50,6 +54,7 @@ module ISO3166
           @subdivisions = {}
           @registered_data = {}
           ISO3166.configuration.loaded_locales = []
+          ISO3166::Country.reset_country_cache
         end
       end
 
@@ -70,7 +75,7 @@ module ISO3166
       end
 
       def datafile_path(file_array)
-        File.join([@cache_dir] + file_array)
+        File.join(*(@cache_dir + file_array))
       end
 
       private
@@ -156,7 +161,7 @@ module ISO3166
 
       def deep_stringify_keys(data)
         data.transform_keys!(&:to_s)
-        data.transform_values! { |v| v.is_a?(Hash) ? deep_stringify_keys(v) : v }
+        data.transform_values! { |value| value.is_a?(Hash) ? deep_stringify_keys(value) : value }
 
         data
       end

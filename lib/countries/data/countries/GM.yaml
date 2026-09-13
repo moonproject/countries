@@ -25,6 +25,7 @@ GM:
   ioc: GAM
   iso_long_name: The Republic of The Gambia
   iso_short_name: Gambia
+  iso_short_name_lower_case: Gambia (the)
   languages_official:
   - en
   languages_spoken:
@@ -43,6 +44,7 @@ GM:
   un_locode: GM
   un_member: true
   unofficial_names:
+  - Gambia
   - The Gambia
   - ガンビア
   vehicle_registration_code: WAG

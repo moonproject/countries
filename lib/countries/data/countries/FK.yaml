@@ -25,6 +25,7 @@ FK:
   ioc:
   iso_long_name: The Falkland Islands
   iso_short_name: Falkland Islands (Malvinas)
+  iso_short_name_lower_case: Falkland Islands (the) [Malvinas]
   languages_official:
   - en
   languages_spoken:
@@ -45,6 +46,7 @@ FK:
   un_member: false
   unofficial_names:
   - Falkland Islands
+  - Falkland Islands [Malvinas]
   - Falklandinseln
   - Îles Malouines
   - Islas Malvinas

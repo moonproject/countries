@@ -25,6 +25,7 @@ DO:
   ioc: DOM
   iso_long_name: The Dominican Republic
   iso_short_name: Dominican Republic
+  iso_short_name_lower_case: Dominican Republic (the)
   languages_official:
   - es
   languages_spoken:

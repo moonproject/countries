@@ -25,6 +25,7 @@ KP:
   ioc: PRK
   iso_long_name: The Democratic People's Republic of Korea
   iso_short_name: Korea (Democratic People's Republic of)
+  iso_short_name_lower_case: Korea (the Democratic People's Republic of)
   languages_official:
   - ko
   languages_spoken:
@@ -44,6 +45,7 @@ KP:
   un_locode: KP
   un_member: true
   unofficial_names:
+  - Korea (Democratic People's Republic of)
   - Korea (North)
   - North Korea
   - Nordkorea

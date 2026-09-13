@@ -25,6 +25,7 @@ KM:
   ioc: COM
   iso_long_name: The Union of the Comoros
   iso_short_name: Comoros
+  iso_short_name_lower_case: Comoros (the)
   languages_official:
   - ar
   - fr

@@ -25,6 +25,7 @@ MH:
   ioc: MHL
   iso_long_name: The Republic of the Marshall Islands
   iso_short_name: Marshall Islands
+  iso_short_name_lower_case: Marshall Islands (the)
   languages_official:
   - en
   - mh

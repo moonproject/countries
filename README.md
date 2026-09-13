@@ -4,9 +4,10 @@ Countries is a collection of all sorts of useful information for every country i
 
 The data used in this gem is also available as git submodules in [YAML](https://github.com/countries/countries-data-yaml) and [JSON](https://github.com/countries/countries-data-json) files.
 
-[![Gem Version](https://badge.fury.io/rb/countries.svg)](https://badge.fury.io/rb/countries) [![Tests](https://github.com/countries/countries/actions/workflows/tests.yml/badge.svg)](https://github.com/countries/countries/actions/workflows/tests.yml) [![Code Climate](https://codeclimate.com/github/countries/countries.svg)](https://codeclimate.com/github/countries/countries)
+[![Gem Version](https://badge.fury.io/rb/countries.svg)](https://badge.fury.io/rb/countries) [![Tests](https://github.com/countries/countries/actions/workflows/tests.yml/badge.svg)](https://github.com/countries/countries/actions/workflows/tests.yml)
  [![CodeQL](https://github.com/countries/countries/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/countries/countries/actions/workflows/codeql-analysis.yml)
-
+ [![Maintainability](https://qlty.sh/gh/countries/projects/countries/maintainability.svg)](https://qlty.sh/gh/countries/projects/countries)
+ [![Code Coverage](https://qlty.sh/gh/countries/projects/countries/coverage.svg)](https://qlty.sh/gh/countries/projects/countries)
 
 ## Installation
 
@@ -96,23 +97,27 @@ c.gec    # => "US"
 ```ruby
 c.iso_long_name # => "The United States of America"
 c.iso_short_name # => "United States of America"
+c.iso_short_name_lower_case # => "United States of America (the)"
 c.common_name # => "United States" (This is a shortcut for c.translations('en'))
 c.unofficial_names # => ["United States of America", "Vereinigte Staaten von Amerika", "États-Unis", "Estados Unidos"]
 
 # Get the names for a country translated to its local languages
-c = Country[:BE]
+c = ISO3166::Country[:BE]
 c.local_names # => ["België", "Belgique", "Belgien"]
 c.local_name # => "België"
 
 # Get a specific translation
+# `translation` method works with string or symbol locales
 c.translation('de') # => 'Vereinigte Staaten von Amerika'
-c.translations['fr'] # => "États-Unis"
+c.translation(:de) # => 'Vereinigte Staaten von Amerika'
+# `translations` method returns a symbol-keyed hash of translations
+c.translations[:fr] # => "États-Unis"
 
 # Get all translations for a locale, defaults to 'en'
-ISO3166::Country.translations         # {"DE"=>"Germany",...}
+ISO3166::Country.translations         # {"de:"Germany",...}
 ISO3166::Country.translations('de')   # {"DE"=>"Deutschland",...}
 ISO3166::Country.all_translated       # ['Germany', ...]
-ISO3166::Country.all_translated('de') # ['Deutschland', ...]
+q # ['Deutschland', ...]
 
 # Nationality
 c.nationality # => "American"
@@ -350,7 +355,7 @@ Any country registered this way will have its data available for searching etc..
 ISO3166::Data.register(
   alpha2: 'LOL',
   iso_short_name: 'Happy Country',
-  translations: {
+  translations: {  # Can use string or symbol keys
     'en' => 'Happy Country',
     'de' => 'glückliches Land'
   }

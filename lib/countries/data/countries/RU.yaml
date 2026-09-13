@@ -31,6 +31,7 @@ RU:
   ioc: RUS
   iso_long_name: The Russian Federation
   iso_short_name: Russian Federation
+  iso_short_name_lower_case: Russian Federation (the)
   languages_official:
   - ru
   languages_spoken:
@@ -51,6 +52,7 @@ RU:
   un_member: true
   unofficial_names:
   - Russia
+  - Russian Federation
   - Russland
   - Russie
   - Rusia

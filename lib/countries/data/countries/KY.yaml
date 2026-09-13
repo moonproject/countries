@@ -25,6 +25,7 @@ KY:
   ioc: CAY
   iso_long_name: The Cayman Islands
   iso_short_name: Cayman Islands
+  iso_short_name_lower_case: Cayman Islands (the)
   languages_official:
   - en
   languages_spoken:

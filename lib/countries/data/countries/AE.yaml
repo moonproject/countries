@@ -30,6 +30,7 @@ AE:
   ioc: UAE
   iso_long_name: The United Arab Emirates
   iso_short_name: United Arab Emirates
+  iso_short_name_lower_case: United Arab Emirates (the)
   languages_official:
   - ar
   languages_spoken:

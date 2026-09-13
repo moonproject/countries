@@ -18,24 +18,42 @@ module ISO3166
 
   module CountryClassMethods
     def new(country_data)
-      super if country_data.is_a?(Hash) || codes.include?(country_data.to_s.upcase)
+      return super if country_data.is_a?(Hash)
+
+      country_code = country_data.to_s
+      country_code = country_code.upcase if country_code.match?(/[a-z]/)
+
+      super if codes.include?(country_code)
     end
 
+    def cached_instance(country_data)
+      @_country_instance_cache ||= {}
+      alpha2 = country_data['alpha2']
+      @_country_instance_cache[alpha2] ||= new(country_data)
+    end
+
+    def reset_country_cache
+      @_country_instance_cache = {}
+    end
+
+    # :reek:UtilityFunction
     def codes
       ISO3166::Data.codes
     end
 
-    def all(&blk)
-      blk ||= proc { |_alpha2, d| ISO3166::Country.new(d) }
-      ISO3166::Data.cache.map(&blk)
+    def all(&block)
+      block ||= proc { |_alpha2, data| ISO3166::Country.new(data) }
+      ISO3166::Data.cache.map(&block)
     end
 
     alias countries all
 
-    def all_names_with_codes(locale = 'en')
-      Country.all.map do |c|
-        lc = c.translation(locale) || c.iso_short_name
-        [lc.respond_to?('html_safe') ? lc.html_safe : lc, c.alpha2]
+    # :reek:UtilityFunction
+    # :reek:ManualDispatch
+    def all_names_with_codes(locale = :en)
+      Country.all.map do |country|
+        lc = country.translation(locale) || country.iso_short_name
+        [lc.respond_to?('html_safe') ? lc.html_safe : lc, country.alpha2]
       end.sort
     end
 
@@ -43,23 +61,20 @@ module ISO3166
       all.map { |country| country.data.fetch_values(*attributes.map(&:to_s)) }
     end
 
-    def all_translated(locale = 'en')
+    def all_translated(locale = :en)
       translations(locale).values
     end
 
-    def translations(locale = 'en')
-      locale = locale.downcase.freeze
+    # :reek:UtilityFunction
+    # :reek:FeatureEnvy
+    def translations(locale = :en)
+      locale = locale.to_sym if locale.is_a?(String)
+      locale = locale.downcase if locale.match?(/[A-Z]/)
+
       file_path = ISO3166::Data.datafile_path(%W[locales #{locale}.json])
       translations = JSON.parse(File.read(file_path))
 
-      custom_countries = {}
-      (ISO3166::Data.codes - ISO3166::Data.loaded_codes).each do |code|
-        country = ISO3166::Country[code]
-        translation = country.translations[locale] || country.iso_short_name
-        custom_countries[code] = translation
-      end
-
-      translations.merge(custom_countries)
+      translations.merge(custom_countries_translations(locale))
     end
 
     # @param query_val [String] A value to query using `query_method`
@@ -67,9 +82,9 @@ module ISO3166
     # @param result_method [Symbol] An optional method of `Country` to apply to the result set.
     # @return [Array] An array of countries matching the provided query, or the result of applying `result_method` to the array of `Country` objects
     def collect_countries_with(query_val, query_method = :alpha2, result_method = :itself)
-      return nil unless [query_method, result_method].map { |e| method_defined? e }.all?
+      return nil unless [query_method, result_method].map { |method| method_defined? method }.all?
 
-      all.select { |country| country.send(query_method).include? query_val }
+      all.select { |country| country.send(query_method)&.include? query_val }
          .map { |country| country.send(result_method) }
     end
 
@@ -85,6 +100,7 @@ module ISO3166
 
     protected
 
+    # :reek:UtilityFunction
     def strip_accents(string)
       if string.is_a?(Regexp)
         Regexp.new(Unaccent.unaccent(string.source), 'i')
@@ -102,11 +118,26 @@ module ISO3166
     # NB: We only want to use this cache for values coming from the JSON
     # file or our own code, caching user-generated data could be dangerous
     # since the cache would continually grow.
+    # :reek:DuplicateMethodCall
     def cached(value)
       @_parsed_values_cache ||= {}
       return @_parsed_values_cache[value] if @_parsed_values_cache[value]
 
       @_parsed_values_cache[value] = yield
+    end
+
+    private
+
+    # :reek:UtilityFunction
+    def custom_countries_translations(locale)
+      custom_countries = {}
+      (ISO3166::Data.codes - ISO3166::Data.loaded_codes).each do |code|
+        country = ISO3166::Country[code]
+        translation = country.translations[locale] || country.iso_short_name
+        custom_countries[code] = translation
+      end
+
+      custom_countries
     end
   end
 end

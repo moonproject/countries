@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ISO3166
+  # :reek:TooManyMethods
   class Country
     extend CountryClassMethods
     extend ConversionMethods
@@ -26,6 +27,7 @@ module ISO3166
       reload
     end
 
+    # :reek:NilCheck
     def valid?
       !(data.nil? || data.empty?)
     end
@@ -36,6 +38,8 @@ module ISO3166
     alias zip_format postal_code_format
     alias languages languages_official
 
+    # :reek:FeatureEnvy
+    # :reek:ManualDispatch
     def ==(other)
       other.respond_to?(:alpha2) && other.alpha2 == alpha2
     end
@@ -52,17 +56,27 @@ module ISO3166
       to_s <=> other.to_s
     end
 
+    # Access country data by key, symbol or string.
+    # :reek:ManualDispatch
+    def [](key)
+      key = key.to_s if key.is_a?(Symbol)
+      data[key] || send(key)
+    end
+
     # +true+ if this country is a member of the European Union.
+    # :reek:NilCheck :reek:DuplicateMethodCall
     def in_eu?
       data['eu_member'].nil? ? false : data['eu_member']
     end
 
     # +true+ if this country is a member of the G7.
+    # :reek:NilCheck :reek:DuplicateMethodCall
     def in_g7?
       data['g7_member'].nil? ? false : data['g7_member']
     end
 
     # +true+ if this country is a member of the G20.
+    # :reek:NilCheck :reek:DuplicateMethodCall
     def in_g20?
       data['g20_member'].nil? ? false : data['g20_member']
     end
@@ -73,28 +87,37 @@ module ISO3166
     end
 
     # +true+ if this country is a member of the European Economic Area.
+    # :reek:NilCheck :reek:DuplicateMethodCall
     def in_eea?
       data['eea_member'].nil? ? false : data['eea_member']
     end
 
     # +true+ if this country is a member of the European Single Market.
+    # :reek:NilCheck :reek:DuplicateMethodCall
     def in_esm?
       data['esm_member'].nil? ? in_eea? : data['esm_member']
     end
 
     # +true+ if this country is a member of the EU VAT Area.
+    # :reek:NilCheck :reek:DuplicateMethodCall
     def in_eu_vat?
       data['euvat_member'].nil? ? in_eu? : data['euvat_member']
     end
 
     # +true+ if this country is a member of the United Nations.
+    # :reek:NilCheck :reek:DuplicateMethodCall
     def in_un?
       data['un_member'].nil? ? false : data['un_member']
     end
 
+    # @return [String] The ISO 3166-1 "Short name lower case" value for this Country.
+    def iso_short_name_lower_case
+      data['iso_short_name_lower_case'].nil? ? data['iso_short_name'] : data['iso_short_name_lower_case']
+    end
+
     # @return [String] The regex for valid postal codes in this Country
     def postal_code_format
-      "\\A#{data['postal_code_format']}\\Z" if postal_code
+      "\\A#{data['postal_code_format']}\\z" if postal_code
     end
 
     def to_s
@@ -108,8 +131,12 @@ module ISO3166
 
     # @param locale [String] The locale to use for translations.
     # @return [String] the name of this Country in the selected locale.
-    def translation(locale = 'en')
-      data['translations'][locale.to_s.downcase]
+    # :reek:FeatureEnvy
+    def translation(locale = :en)
+      locale = locale.to_sym if locale.is_a?(String)
+      locale = locale.downcase if locale.match?(/[A-Z]/)
+
+      data['translations'][locale]
     end
 
     # @return [String] the “common name” of this Country in English.

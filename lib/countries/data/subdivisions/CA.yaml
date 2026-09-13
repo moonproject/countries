@@ -75,7 +75,7 @@ AB:
     yue_Hans: 亚伯达
     jv: Alberta
     sq: Alberta
-    ccp: "\U00011103\U00011123\U00011134\U0001111D\U0001112C\U00011122\U00011134\U00011111"
+    ccp: "𑄃𑄣𑄴𑄝𑄬𑄢𑄴𑄑"
     ga: Alberta
     so: Alberta
     pa: ਐਲਬਰਟਾ
@@ -90,7 +90,6 @@ AB:
     'no': Alberta
     ky: Альберта
     ps: آلبرتا
-  comments:
   type: province
 BC:
   name: British Columbia
@@ -168,8 +167,7 @@ BC:
     yue_Hans: 卑诗省
     jv: British Columbia
     sq: Kolumbia Britanike
-    ccp: "\U0001111D\U00011133\U00011122\U00011128\U00011111\U00011128\U0001110C\U00011134
-      \U00011107\U00011127\U00011123\U00011127\U0001111F\U00011134\U0001111D\U00011128\U00011120"
+    ccp: "𑄝𑄳𑄢𑄨𑄑𑄨𑄌𑄴 𑄇𑄧𑄣𑄧𑄟𑄴𑄝𑄨𑄠"
     ga: An Cholóim Bhriotanach
     pa: ਬਰੀਟੀਸ਼ ਕੋਲੰਬਿਆ
     ml: ബ്രിട്ടീഷ് കൊളമ്പിയ
@@ -182,7 +180,6 @@ BC:
     'no': Britisk Columbia
     kk: Британдық Колумбия
     ps: برتانوي کولمبيا
-  comments:
   type: province
 MB:
   name: Manitoba
@@ -259,7 +256,7 @@ MB:
     zh: 曼尼托巴
     yue_Hans: 缅尼吐巴
     sq: Manitoba
-    ccp: "\U0001111F\U0001111A\U00011128\U00011111\U00011127\U0001111D"
+    ccp: "𑄟𑄚𑄨𑄑𑄧𑄝"
     ga: Manitoba
     pa: ਮਾਨੀਟੋਬਾ
     kk: Манитоба
@@ -272,7 +269,6 @@ MB:
     mk: Манитоба
     'no': Manitoba
     so: Manitoba
-  comments:
   type: province
 NB:
   name: New Brunswick
@@ -349,7 +345,7 @@ NB:
     zh: 新不倫瑞克
     yue_Hans: 纽宾士域省
     sq: New Brunswick
-    ccp: "\U0001111A\U00011128\U00011105\U0001112A \U0001111D\U00011133\U00011122\U0001111A\U00011134\U00011125\U0001112A\U00011103\U00011128\U00011107\U00011134"
+    ccp: "𑄚𑄨𑄅𑄪 𑄝𑄳𑄢𑄚𑄴𑄥𑄪𑄃𑄨𑄇𑄴"
     ga: New Brunswick
     pa: ਨਿਊ ਬਰੰਸਵਿਕ
     yue: 紐賓士域省
@@ -360,7 +356,6 @@ NB:
     'no': New Brunswick
     kk: Нью-Брансуик
     ml: ന്യൂ ബ്രൺസ്വിക്ക്
-  comments:
   type: province
 NL:
   name: Newfoundland and Labrador
@@ -439,8 +434,7 @@ NL:
     zh: 紐芬蘭與拉布拉多
     yue_Hans: 纽芬兰与拉布拉多
     sq: Toka e Re dhe Labradori
-    ccp: "\U0001111A\U00011128\U00011105\U0001112A\U0001111C\U00011105\U0001112A\U0001111A\U00011134\U00011123\U00011133\U00011120\U0001111A\U00011133\U00011113\U00011134
-      \U00011103\U00011133\U00011103 \U00011123\U0001111D\U00011133\U00011122\U00011113\U0001112E\U00011122\U00011134"
+    ccp: "𑄚𑄨𑄅𑄪𑄜𑄅𑄪𑄚𑄴𑄣𑄳𑄠𑄚𑄳𑄓𑄴 𑄃𑄳𑄃 𑄣𑄝𑄳𑄢𑄓𑄮𑄢𑄴"
     ga: Talamh an Éisc agus Labradar
     pa: ਨਿਊਫ਼ੰਡਲੈਂਡ ਅਤੇ ਲਾਬਰਾਡੋਰ
     yue: 紐芬蘭與拉布拉多
@@ -454,7 +448,6 @@ NL:
     yo_BJ: Newfoundland àti Labrador
     kk: Ньюфаундленд және Лабрадор
     ml: ന്യൂഫൗണ്ടൻലാൻഡ് ആന്റ് ലാബ്രഡോർ
-  comments:
   type: province
 NS:
   name: Nova Scotia
@@ -531,7 +524,7 @@ NS:
     zh: 新斯科舍
     yue_Hans: 诺华斯高沙
     sq: Skocia e Re
-    ccp: "\U0001111A\U0001112E\U0001111E \U0001110C\U00011133\U00011107\U00011127\U00011111\U00011128\U00011120"
+    ccp: "𑄚𑄮𑄞 𑄌𑄳𑄇𑄧𑄑𑄨𑄠"
     ga: Albain Nua
     pa: ਨੋਵਾ ਸਕੋਸ਼ਾ
     ml: നോവ സ്കോട്ടിയ
@@ -543,12 +536,12 @@ NS:
     mk: Нова Шкотска
     'no': Nova Scotia
     kk: Жаңа Шотландия
-  comments:
   type: province
 NT:
   name: Northwest Territories
   code: NT
   unofficial_names:
+  - NWT
   - Territoires du Nord-Ouest
   geo:
     latitude: 64.8255441
@@ -620,8 +613,7 @@ NT:
     zh: 西北地区
     yue_Hans: 西北地区
     sq: Territoret Veri-Perëndimore
-    ccp: "\U00011105\U0001112A\U00011116\U00011133\U00011126\U00011127\U00011122\U0001112C\U00011118\U00011128
-      \U00011122\U0001112C\U0001110E\U00011133\U00011120\U00011127\U00011120\U0001111A\U00011128"
+    ccp: "𑄅𑄪𑄖𑄳𑄦𑄧𑄢𑄬𑄘𑄨 𑄢𑄬𑄎𑄳𑄠𑄧𑄠𑄚𑄨"
     ga: Críocha an Iarthuaiscirt
     pa: ਉੱਤਰ-ਪੱਛਮੀ ਰਾਜਖੇਤਰ
     yue: 西北地區
@@ -632,7 +624,6 @@ NT:
     'no': Nordvestterritoriene
     kk: Солтүстік-Батыс территориялары
     ml: നോർത്ത്വെസ്റ്റ് ടെറിറ്ററീസ്
-  comments:
   type: territory
 NU:
   name: Nunavut
@@ -709,7 +700,7 @@ NU:
     zh: 努納武特
     yue_Hans: 努那乌
     sq: Nunavut
-    ccp: "\U0001111A\U0001112A\U0001111A\U0001111E\U00011116\U00011134"
+    ccp: "𑄚𑄪𑄚𑄞𑄖𑄴"
     ga: Nunavut
     pa: ਨੂਨਾਵੁਤ
     kk: Нунавут
@@ -721,7 +712,6 @@ NU:
     mk: Нунавут
     'no': Nunavut
     ky: Нунавуут
-  comments:
   type: territory
 'ON':
   name: Ontario
@@ -799,7 +789,7 @@ NU:
     zh: 安大略
     yue_Hans: 安大略
     sq: Ontario
-    ccp: "\U00011103\U00011127\U0001111A\U00011134\U00011111\U00011122\U00011128\U00011103\U0001112E"
+    ccp: "𑄃𑄧𑄚𑄴𑄑𑄢𑄨𑄃𑄮"
     ga: Ontario
     so: Ontario
     pa: ਓਂਟਾਰਿਓ
@@ -813,12 +803,12 @@ NU:
     'no': Ontario
     kk: Онтарио
     ps: آنټاریو
-  comments:
   type: province
 PE:
   name: Prince Edward Island
   code: PE
   unofficial_names:
+  - PEI
   - Île-du-Prince-Édouard
   geo:
     latitude: 46.510712
@@ -890,9 +880,7 @@ PE:
     zh: 愛德華王子島
     yue_Hans: 爱德华太子岛
     sq: Ishulli i Princit Eduard
-    ccp: "\U0001111B\U00011133\U00011122\U00011128\U0001111A\U00011134\U00011125\U00011134
-      \U00011103\U0001112C\U00011116\U00011134\U00011103\U0001112E\U00011120\U00011122\U00011134\U00011113\U00011134
-      \U00011103\U00011128\U0001110C\U00011134\U00011123\U00011133\U00011120\U0001111A\U00011133\U00011113\U00011134"
+    ccp: "𑄛𑄳𑄢𑄨𑄚𑄴𑄥𑄴 𑄃𑄬𑄖𑄴𑄃𑄮𑄠𑄢𑄴𑄓𑄴 𑄃𑄨𑄌𑄴𑄣𑄳𑄠𑄚𑄳𑄓𑄴"
     ga: Oileán Phrionsa Éadbhard
     pa: ਪ੍ਰਿੰਸ ਐਡਵਰਡ ਟਾਪੂ
     yue: 愛德華太子島
@@ -904,12 +892,12 @@ PE:
     kk: Ханзада Эдуард Аралы
     ml: പ്രിൻസ് എഡ്വേർഡ് ദ്വീപ്
     so: Prince Edward Island
-  comments:
   type: province
 QC:
   name: Quebec
   code: QC
   unofficial_names:
+  - PQ
   - Québec
   geo:
     latitude: 52.9399159
@@ -986,7 +974,7 @@ QC:
     yue_Hans: 魁北克
     jv: Quebec
     sq: Quebec
-    ccp: "\U00011107\U0001112D\U0001112A\U0001111D\U0001112C\U00011107\U00011134"
+    ccp: "𑄇𑄭𑄪𑄝𑄬𑄇𑄴"
     ga: Québec
     ha: Kebek
     so: Quebec
@@ -1000,7 +988,6 @@ QC:
     ha_NE: Kebek
     'no': Québec
     ky: Квебек (Аймак)
-  comments:
   type: province
 SK:
   name: Saskatchewan
@@ -1077,7 +1064,7 @@ SK:
     zh: 薩斯喀徹溫
     yue_Hans: 沙士加芝湾
     sq: Saskatchewan
-    ccp: "\U00011125\U0001110C\U00011134\U00011107\U00011116\U00011134\U00011125\U0001112C\U00011120\U0001111A\U00011134"
+    ccp: "𑄥𑄌𑄴𑄇𑄖𑄴𑄥𑄬𑄠𑄚𑄴"
     ga: Saskatchewan
     pa: ਸਸਕਾਚਵਾਨ
     yue: 沙士加芝灣
@@ -1090,7 +1077,6 @@ SK:
     kk: Саскачеван
     ml: സസ്ക്കാറ്റ്ച്ചെവാൻ
     so: Saskatchewan
-  comments:
   type: province
 YT:
   name: Yukon
@@ -1167,7 +1153,7 @@ YT:
     zh: 育空
     yue_Hans: 育空地区
     sq: Yukon
-    ccp: "\U00011103\U00011128\U00011120\U00011107\U00011127\U0001111A\U00011134"
+    ccp: "𑄃𑄨𑄠𑄇𑄧𑄚𑄴"
     ga: Yukon
     pa: ਯੂਕੋਨ
     yue: 育空地區
@@ -1179,5 +1165,4 @@ YT:
     'no': Yukon
     kk: Юкон
     ml: യൂക്കോൺ
-  comments:
   type: territory

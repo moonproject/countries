@@ -25,6 +25,7 @@ BS:
   ioc: BAH
   iso_long_name: The Commonwealth of The Bahamas
   iso_short_name: Bahamas
+  iso_short_name_lower_case: Bahamas (the)
   languages_official:
   - en
   languages_spoken:
@@ -44,6 +45,7 @@ BS:
   un_locode: BS
   un_member: true
   unofficial_names:
+  - Bahamas
   - The Bahamas
   - バハマ
   vehicle_registration_code: BS

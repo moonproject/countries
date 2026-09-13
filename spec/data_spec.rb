@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'benchmark'
 
 describe ISO3166::Data do
   it 'responds to call' do
@@ -19,7 +18,7 @@ describe ISO3166::Data do
   it 'can load selective locales and reload efficiently' do
     ISO3166.configuration.locales = %i[es de en]
     data = ISO3166::Data.new('US').call
-    expect(data['translations']).to eq('de' => 'Vereinigte Staaten', 'es' => 'Estados Unidos', 'en' => 'United States')
+    expect(data['translations']).to eq(de: 'Vereinigte Staaten', es: 'Estados Unidos', en: 'United States')
     expect(data['translated_names'].sort).to eq ['Vereinigte Staaten', 'Estados Unidos', 'United States'].sort
     ISO3166.configuration.locales = [:en]
     data = ISO3166::Data.new('US').call
@@ -30,11 +29,11 @@ describe ISO3166::Data do
     ISO3166.configuration.locales = %i[en]
     ISO3166::Data.reset
     subdivisions = ISO3166::Data.subdivisions('US')
-    expect(subdivisions.values.first['translations'].keys).to eq(%w[en])
+    expect(subdivisions.values.first['translations'].keys).to eq(%i[en])
     ISO3166.configuration.locales = %i[es de en]
     ISO3166::Data.reset
     subdivisions = ISO3166::Data.subdivisions('US')
-    expect(subdivisions.values.first['translations'].keys).to eq(%w[es de en])
+    expect(subdivisions.values.first['translations'].keys).to eq(%i[es de en])
   end
 
   describe '#codes' do
@@ -70,7 +69,7 @@ describe ISO3166::Data do
   it 'locales will load prior and be cached' do
     ISO3166.reset
     ISO3166.configuration.locales = %i[es de en]
-    expect(ISO3166::Data.send(:locales_to_load)).to eql(%w[es de en])
+    expect(ISO3166::Data.send(:locales_to_load)).to eql(%i[es de en])
     ISO3166::Data.update_cache
     ISO3166.configuration.locales = %i[es de en]
     expect(ISO3166::Data.send(:locales_to_load)).to eql([])
@@ -83,7 +82,7 @@ describe ISO3166::Data do
     expect(ISO3166::Country.new('DE').translation('de')).to eq 'Deutschland'
     ISO3166::Data.update_cache
     ISO3166.configuration.locales = %i[es en]
-    expect(ISO3166::Data.send(:locales_to_remove)).to eql(['de'])
+    expect(ISO3166::Data.send(:locales_to_remove)).to eql([:de])
     expect(ISO3166::Country.new('DE').translation('de')).to eq nil
   end
 
@@ -122,8 +121,38 @@ describe ISO3166::Data do
       ISO3166.configuration.locales = %i[es de de]
       expect(data['iso_short_name']).to eq 'NEW Taiwan'
       expect(subject.iso_short_name).to eq 'NEW Taiwan'
-      expect(subject.translations).to eq('en' => 'NEW Taiwan',
-                                         'de' => 'NEW Taiwan')
+      expect(subject.translations).to eq(en: 'NEW Taiwan',
+                                         de: 'NEW Taiwan')
+      expect(subject.subdivisions.keys).to eq(%w[CHA CYI])
+      expect(subject.subdivisions.values.map(&:name)).to eq(['New Changhua', 'New Municipality'])
+    end
+  end
+
+  describe 'hotloading existing data with symbol keyed translations' do
+    before do
+      ISO3166::Data.register(
+        alpha2: 'TW',
+        iso_short_name: 'NEW Taiwan',
+        subdivisions: {
+          CHA: { name: 'New Changhua' },
+          CYI: { name: 'New Municipality' }
+        },
+        translations: {
+          en: 'NEW Taiwan',
+          de: 'NEW Taiwan'
+        }
+      )
+    end
+
+    subject { ISO3166::Country.new('TW') }
+
+    it 'can be done ' do
+      data = ISO3166::Data.new('TW').call
+      ISO3166.configuration.locales = %i[es de de]
+      expect(data['iso_short_name']).to eq 'NEW Taiwan'
+      expect(subject.iso_short_name).to eq 'NEW Taiwan'
+      expect(subject.translations).to eq(en: 'NEW Taiwan',
+                                         de: 'NEW Taiwan')
       expect(subject.subdivisions.keys).to eq(%w[CHA CYI])
       expect(subject.subdivisions.values.map(&:name)).to eq(['New Changhua', 'New Municipality'])
     end
@@ -169,15 +198,21 @@ describe ISO3166::Data do
 
     it 'will not override custom translations' do
       data = ISO3166::Data.new('LOL').call
-      expect(data['translations']).to eq('en' => 'Happy Country',
-                                         'de' => 'glückliches Land')
-      expect(subject.translations).to eq('en' => 'Happy Country',
-                                         'de' => 'glückliches Land')
+      expect(data['translations']).to eq(en: 'Happy Country',
+                                         de: 'glückliches Land')
+      expect(subject.translations).to eq(en: 'Happy Country',
+                                         de: 'glückliches Land')
     end
 
     it 'leaves remain countries intact after a hotload' do
       data = ISO3166::Data.new('US').call
       expect(data).to include('subregion')
+    end
+
+    it 'does not mutate the translations hash passed by the caller' do
+      translations = { 'en' => 'Happy Country', 'de' => 'glückliches Land' }
+      ISO3166::Data.register(alpha2: 'LOL', iso_short_name: 'Happy Country', translations: translations)
+      expect(translations.keys).to eq(%w[en de])
     end
 
     it 'can be undone' do
@@ -221,6 +256,10 @@ describe ISO3166::Data do
     end
 
     context 'cached country subdivision data' do
+      before do
+        ISO3166.reset
+      end
+
       it 'has a non-blank code for all subdivisions' do
         ISO3166::Country.all.each do |country|
           expect(country.subdivisions.values.none? do |s|

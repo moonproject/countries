@@ -25,6 +25,7 @@ IO:
   ioc:
   iso_long_name: The British Indian Ocean Territory
   iso_short_name: British Indian Ocean Territory
+  iso_short_name_lower_case: British Indian Ocean Territory (the)
   languages_official:
   - en
   languages_spoken:

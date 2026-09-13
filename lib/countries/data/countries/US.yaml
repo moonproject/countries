@@ -32,6 +32,7 @@ US:
   ioc: USA
   iso_long_name: The United States of America
   iso_short_name: United States of America
+  iso_short_name_lower_case: United States of America (the)
   languages_official:
   - en
   languages_spoken:
@@ -52,6 +53,7 @@ US:
   un_member: true
   unofficial_names:
   - United States
+  - United States of America
   - USA
   - Vereinigte Staaten von Amerika
   - États-Unis

@@ -3,15 +3,83 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+* Anchor `postal_code_format` with `\z` instead of `\Z` so the generated regex no longer accepts a trailing newline (e.g. `"123456\n"` is now correctly rejected). Fixes #902
+* `ISO3166::Data.register` no longer mutates the `translations` hash passed by the caller (it was transforming the caller's keys to symbols in place)
+
+## [8.1.0](https://github.com/countries/countries/releases/tag/v8.1.0') (2026/01/02 09:14 +00:00)
+
+* Update Romania standard VAT from 19% to 21% + single reduced rate to 11% (Aug 1st 2025 change) by @jarthod in https://github.com/countries/countries/pull/930
+* Remove CP code from FR translations. Fixes #928 by @pmor in https://github.com/countries/countries/pull/932
+* Add `iso_short_name_lower_case` attribute as an alternative to #907 by @pmor in https://github.com/countries/countries/pull/915
+* Allow locales to be set with strings. Fixes #916 by @pmor in https://github.com/countries/countries/pull/931
+* Add #pluck support by @pmor in https://github.com/countries/countries/pull/933
+* Fix misuse of File.join with nested array by @marksmith in https://github.com/countries/countries/pull/936
+* Adds translations in Bulgarian for MK, CZ, CV, SZ by @kirichkov in https://github.com/countries/countries/pull/935
+* Update BG to EUR (effective 1 Jan 26) by @pmor in https://github.com/countries/countries/pull/940
+* Update vatican nationality by @pmor in https://github.com/countries/countries/pull/941
+* Add ruby 4.0.0 to test matrix and update gems by @pmor in https://github.com/countries/countries/pull/942
+
+## [8.0.4](https://github.com/countries/countries/releases/tag/v8.0.4') (2025/08/30 14:36 +00:00)
+
+* Add the old iso_short_names as unofficial_names. Fixes #923 by @pmor in https://github.com/countries/countries/pull/926
+* Revert removal of empty keys from country data files. by @pmor in https://github.com/countries/countries/pull/927
+
+
+## [8.0.3](https://github.com/countries/countries/releases/tag/v8.0.3') (2025/07/11 14:25 +00:00)
+
+* fix: change french name of France subdivisions by @Bertrand-Bichat in https://github.com/countries/countries/pull/919
+* fix: add guard clause to check if matches is nil by @ratheeshaditya in https://github.com/countries/countries/pull/917
+* Update Estonia standard VAT from 22% to 24% (July 1st 2025 change)  by @jarthod in https://github.com/countries/countries/pull/922
+
+
+## [8.0.2](https://github.com/countries/countries/releases/tag/v8.0.2') (2025/06/01 13:30 +00:00)
+
+* fix: iso short names by @sabify in https://github.com/countries/countries/pull/907
+* Fix error when searching `ISO3166::Country[nil]`. Fixes #912 by @pmor in https://github.com/countries/countries/pull/913
+
+## [8.0.1](https://github.com/countries/countries/releases/tag/v8.0.1') (2025/05/31 15:34 +00:00)
+
+* Fix error in collect_countries_with and update specs by @pmor in https://github.com/countries/countries/pull/911
+
+## [8.0.0](https://github.com/countries/countries/releases/tag/v8.0.0') (2025/05/31 14:35 +00:00)
+
+**Breaking Changes**
+
+* Drop support for Ruby 3.1 (EOL 2025-03-26) by @pmor in https://github.com/countries/countries/pull/909
+* Experiment with symbol-keyed translation hashes to reduce string allocations by @pmor in https://github.com/countries/countries/pull/884
+
+  This is a potentially breaking change because some translation-related methods return the translation hashes, which now have symbol keys instead of string keys
+
+* Find correct subdivision when searching for Washington by @hieuk09 in https://github.com/countries/countries/pull/900
+
+  This is a potentially breaking change because the behaviour of `find_subdivision_by_name` has changed to fix https://github.com/countries/countries/issues/888
+
+**What's Changed**
+
+* update CR translations by @daviddinis in https://github.com/countries/countries/pull/892
+* fix(data): DK `address_format` by @mroach in https://github.com/countries/countries/pull/890
+* fix: the spec breakage in SK by @sabify in https://github.com/countries/countries/pull/893
+* fix: currency code of Sierra Leone and Sao Tome and Principe by @sabify in https://github.com/countries/countries/pull/895
+* fix: normalizing data files by @sabify in https://github.com/countries/countries/pull/894
+* Fix Spanish translation of DZ (Algeria). Fixes #889 by @pmor in https://github.com/countries/countries/pull/896
+* fix: currency of Curacao and Saint Maarten by @sabify in https://github.com/countries/countries/pull/899
+* Fix SG - Singapore country name in pt-BR by @stephannv in https://github.com/countries/countries/pull/904
+* Correct ZA province name by @yenshirak in https://github.com/countries/countries/pull/906
+* Cleanup some reek issues by @pmor in https://github.com/countries/countries/pull/897
+
+
 ## [7.1.1](https://github.com/countries/countries/releases/tag/v7.1.1') (2025/02/08 18:07 +00:00)
 
-## What's Changed
+**What's Changed**
 
 * Update SK VAT rates for 2025 by @bobmaerten in https://github.com/countries/countries/pull/885
 
 ## [7.1.0](https://github.com/countries/countries/releases/tag/v7.1.0') (2025/01/04 17:16 +00:00)
 
-## What's Changed
+**What's Changed**
+
 * Add UN membership by @will-gant in https://github.com/countries/countries/pull/882
 * Add vehicle_registration_code attribute to countries data by @ch000 in https://github.com/countries/countries/pull/871
 * Add Ruby 3.4 to the test matrix by @pmor in https://github.com/countries/countries/pull/883

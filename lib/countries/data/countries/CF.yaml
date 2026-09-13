@@ -25,6 +25,7 @@ CF:
   ioc: CAF
   iso_long_name: The Central African Republic
   iso_short_name: Central African Republic
+  iso_short_name_lower_case: Central African Republic (the)
   languages_official:
   - fr
   - sg
